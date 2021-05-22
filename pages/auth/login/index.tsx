@@ -6,6 +6,7 @@ import {
   Input,
   Label
 } from '../../../components/FormStyle'
+import Button from '../../../components/Form/Button'
 
 const Content = styled.div`
   display: flex;
@@ -19,7 +20,6 @@ const FormContent = styled.div`
   padding: .5rem;
   text-align: center;
 `
-
 export default function Login () {
   return (
     <Layout title="Login">
@@ -33,10 +33,10 @@ export default function Login () {
             </FormControl>
             <FormControl>
               <Input type="password" id="password" name="password" />
-              <Label htmlFor="password" className="invalid">Kata Sandi</Label>
+              <Label htmlFor="password" className="active">Kata Sandi</Label>
             </FormControl>
             <div>
-              <button>Masuk</button>
+              <Button title="Masuk" type="button" />
             </div>
           </form>
         </FormContent>

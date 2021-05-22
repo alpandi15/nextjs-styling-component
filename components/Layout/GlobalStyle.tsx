@@ -1,3 +1,6 @@
+import { createGlobalStyle } from 'styled-components'
+
+export default createGlobalStyle`
 html,
 body {
   padding: 0;
@@ -14,9 +17,22 @@ a {
 
 * {
   box-sizing: border-box;
+  font-family: "Poppins";
 }
 
 #__next {
   display: flex;
   justify-content: center;
 }
+
+.waves-effect {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  user-select: none;
+  vertical-align: middle;
+  z-index: 1;
+  transition: .3s ease-out;
+}
+`

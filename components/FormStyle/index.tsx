@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 export const FormControl = styled.div`
-  margin-top: .5rem;
+  margin-top: 1.5rem;
   position: relative;
 `
 export const Input = styled.input`
@@ -25,7 +25,7 @@ export const Input = styled.input`
 `
 export const Label = styled.label`
   font-size: 12px;
-  left: .75rem;
+  left: 0;
   top: 4;
   position: absolute;
   pointer-events: none;

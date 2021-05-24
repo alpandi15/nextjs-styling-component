@@ -1,9 +1,11 @@
 import React from 'react'
+import Router from 'next/router'
 import getConfig from 'next/config'
 import styled from 'styled-components'
 import {
   useForm
 } from 'react-hook-form'
+import { setCookie } from 'nookies'
 import Layout from '../../../components/Layout'
 import {
   FormControl,
@@ -51,6 +53,14 @@ export default function Login () {
 
   const onSubmit = async (data: FormInputProps) => {
     const login = await loginAction(data)
+    if (login?.success) {
+      setCookie(null, 'jwt', login?.data?.access_token , {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      })
+
+      Router.push('/conversation')
+    }
     console.log(data, login)
   }
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import getConfig from 'next/config'
 import styled from 'styled-components'
 import {
   useForm
@@ -15,40 +16,42 @@ import {
   device
 } from '../../../styles/LayoutStyle'
 
-const Content = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100vh;
-`
-const FormContent = styled.div`
-  width: 400px;
-  padding: 1.5rem;
-  // text-align: center;
-  background-color: #FFFFFF;
-  border-radius: 20px;
-
-  @media only screen and ${device?.mobileS} {
-    width: 88%;
-    padding: 1rem;
-  }
-`
-
 type FormInputProps = {
   username: string,
   password: string
+}
+
+const { publicRuntimeConfig } = getConfig()
+
+const loginAction = async (data: FormInputProps) => {
+  const response = await fetch(`${publicRuntimeConfig.API_URL}/auth/login`, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  })
+  if (!response.ok) {
+    throw new Error("Fetching Error");
+  }
+  
+  return await response.json()
 }
 
 export default function Login () {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: {
+      errors,
+      isSubmitting
+    }
   } = useForm<FormInputProps>()
 
-  const onSubmit = (data: FormInputProps) => {
-    console.log(data)
+  const onSubmit = async (data: FormInputProps) => {
+    const login = await loginAction(data)
+    console.log(data, login)
   }
 
   return (
@@ -65,7 +68,7 @@ export default function Login () {
                 {...register('username',
                   {
                     required: 'Username Required*',
-                    pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    // pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                   })
                 }
               />
@@ -103,6 +106,7 @@ export default function Login () {
               <Button
                 title="Masuk"
                 type="submit"
+                disabled={isSubmitting}
               />
             </div>
           </form>
@@ -111,3 +115,23 @@ export default function Login () {
     </Layout>
   )
 }
+
+const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+`
+const FormContent = styled.div`
+  width: 400px;
+  padding: 1.5rem;
+  // text-align: center;
+  background-color: #FFFFFF;
+  border-radius: 20px;
+
+  @media only screen and ${device?.mobileS} {
+    width: 88%;
+    padding: 1rem;
+  }
+`

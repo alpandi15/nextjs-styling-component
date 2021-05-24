@@ -27,6 +27,7 @@ const Button = styled.button`
 type ButtonProps = {
   title: string,
   type: string,
+  disabled?: boolean,
   onClick?: Function,
   props?: any
 }
@@ -34,6 +35,7 @@ type ButtonProps = {
 const ButtonComponent = ({
   title,
   type,
+  disabled,
   onClick,
   props
 }: ButtonProps) => {
@@ -41,6 +43,7 @@ const ButtonComponent = ({
     <Button
       type={type}
       onClick={onClick}
+      disabled={disabled}
       {...props}
     >
       {title}

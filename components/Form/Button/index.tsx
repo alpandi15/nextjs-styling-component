@@ -27,16 +27,22 @@ const Button = styled.button`
 type ButtonProps = {
   title: string,
   type: string,
+  onClick?: Function,
   props?: any
 }
 
 const ButtonComponent = ({
   title,
   type,
+  onClick,
   props
 }: ButtonProps) => {
   return (
-    <Button {...props} type={type}>
+    <Button
+      type={type}
+      onClick={onClick}
+      {...props}
+    >
       {title}
       <Ripple />
     </Button>

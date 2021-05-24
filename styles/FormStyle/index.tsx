@@ -22,6 +22,12 @@ export const Input = styled.input`
     border-bottom: 1px solid #039496;
     box-shadow: 0 1px 0 0 #039496;
   }
+
+
+  &.invalid {
+    border-bottom: 1px solid #960303 !important;
+    box-shadow: 0 1px 0 0 #960303 !important;
+  }
 `
 export const Label = styled.label`
   font-size: 12px;
@@ -47,11 +53,11 @@ export const Label = styled.label`
   }
 
   &.valid {
-    color: #039496;
+    color: #039496 !important;
   }
 
   &.invalid {
-    color: #960303;
+    color: #960303 !important;
   }
 
   :after {
@@ -63,4 +69,12 @@ export const Label = styled.label`
     opacity: 0;
     transition: .2s opacity ease-out, .2s color ease-out;
   }
+`
+
+export const ErrorInputMessage = styled.span`
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  font-size: 10px;
+  color: #a62626;
 `

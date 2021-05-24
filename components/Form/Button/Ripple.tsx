@@ -1,8 +1,18 @@
 import React, { useState, useLayoutEffect } from "react";
 import styled from "styled-components";
-import PropTypes from "prop-types";
 
-const RippleContainer = styled.div`
+type RippleProps = {
+  x: number,
+  y: number,
+  size: number
+}
+
+interface RippleContainerProps {
+  color?: string,
+  duration?: number
+};
+
+const RippleContainer = styled.div<RippleContainerProps>`
   position: absolute;
   top: 0;
   right: 0;
@@ -27,9 +37,9 @@ const RippleContainer = styled.div`
   }
 `;
 
-const useDebouncedRippleCleanUp = (rippleCount, duration, cleanUpFunction) => {
+const useDebouncedRippleCleanUp = (rippleCount: number, duration: number, cleanUpFunction: Function) => {
   useLayoutEffect(() => {
-    let bounce = null;
+    let bounce: any = null;
     if (rippleCount > 0) {
       clearTimeout(bounce);
 
@@ -44,13 +54,13 @@ const useDebouncedRippleCleanUp = (rippleCount, duration, cleanUpFunction) => {
 };
 
 const Ripple = ({ duration = 850, color = "#fff" }) => {
-  const [rippleArray, setRippleArray] = useState([]);
+  const [rippleArray, setRippleArray] = useState<RippleProps[] | []>([]);
 
   useDebouncedRippleCleanUp(rippleArray.length, duration, () => {
     setRippleArray([]);
   });
 
-  const addRipple = event => {
+  const addRipple = (event: any) => {
     const rippleContainer = event.currentTarget.getBoundingClientRect();
     const size =
       rippleContainer.width > rippleContainer.height
@@ -58,7 +68,7 @@ const Ripple = ({ duration = 850, color = "#fff" }) => {
         : rippleContainer.height;
     const x = event.pageX - rippleContainer.x - size / 2;
     const y = event.pageY - rippleContainer.y - size / 2;
-    const newRipple = {
+    const newRipple: RippleProps = {
       x,
       y,
       size
@@ -70,7 +80,7 @@ const Ripple = ({ duration = 850, color = "#fff" }) => {
   return (
     <RippleContainer duration={duration} color={color} onMouseDown={addRipple}>
       {rippleArray.length > 0 &&
-        rippleArray.map((ripple, index) => {
+        rippleArray.map((ripple: RippleProps, index: number) => {
           return (
             <span
               key={"span" + index}
@@ -85,11 +95,6 @@ const Ripple = ({ duration = 850, color = "#fff" }) => {
         })}
     </RippleContainer>
   );
-};
-
-Ripple.propTypes = {
-  duration: PropTypes.number,
-  color: PropTypes.string
 };
 
 export default Ripple;

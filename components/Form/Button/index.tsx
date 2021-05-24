@@ -24,11 +24,17 @@ const Button = styled.button`
   }
 `
 
+type ButtonProps = {
+  title: string,
+  type: string,
+  props: any
+}
+
 const ButtonComponent = ({
   title,
   type,
   props
-}) => {
+}: ButtonProps) => {
   return (
     <Button {...props} type={type}>
       {title}

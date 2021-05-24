@@ -10,19 +10,15 @@
 //     Text,
 //   } from "@chakra-ui/react";
 import Head from "next/head";
-import styled from 'styled-components'
 import React, { ReactNode } from "react";
+import {
+  Container
+} from '../../styles/LayoutStyle'
 
 type Props = {
   children: ReactNode,
   title: string
 }
-
-const Container = styled.main`
-  width: 920px;
-  background: #ffffff;
-  height: 100vh;
-`;
 
 const Layout = ({
   children,

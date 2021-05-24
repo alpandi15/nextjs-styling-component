@@ -5,20 +5,30 @@ import {
   FormControl,
   Input,
   Label
-} from '../../../components/FormStyle'
+} from '../../../styles/FormStyle'
 import Button from '../../../components/Form/Button'
+import {
+  device
+} from '../../../styles/LayoutStyle'
 
 const Content = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
 `
 const FormContent = styled.div`
   width: 400px;
-  padding: .5rem;
+  padding: 1.5rem;
   text-align: center;
+  background-color: #FFFFFF;
+  border-radius: 20px;
+
+  @media only screen and ${device?.mobileS} {
+    width: 88%;
+    padding: 1rem;
+  }
 `
 export default function Login () {
   return (

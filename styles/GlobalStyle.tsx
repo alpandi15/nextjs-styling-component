@@ -21,8 +21,7 @@ a {
 }
 
 #__next {
-  display: flex;
-  justify-content: center;
+  height: 100%;
 }
 
 .waves-effect {

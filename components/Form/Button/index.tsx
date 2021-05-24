@@ -27,7 +27,7 @@ const Button = styled.button`
 type ButtonProps = {
   title: string,
   type: string,
-  props: any
+  props?: any
 }
 
 const ButtonComponent = ({

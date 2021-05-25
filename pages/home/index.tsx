@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Link from 'next/link'
 import { withAuthSync } from '../../components/Security/auth'
 import { apiGetProfile, logout } from '../../services/auth'
 
@@ -19,6 +20,10 @@ const Home = ({
             userData?.name
           }
         </b>
+        {' '}
+        <Link href="/home/profile">
+          <a>{`Profil's >>`}</a>
+        </Link>
         <div>
           <Logout onClick={logoutUser}>Logout</Logout>
         </div>

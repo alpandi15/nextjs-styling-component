@@ -17,3 +17,12 @@ export async function apiLogin (data: any) {
     method: 'post'
   })
 }
+
+export async function apiGetProfile (ctx: any = null) {
+  return request({
+    url: '/auth/me',
+    auth: true,
+    method: 'get',
+    context: ctx
+  })
+}

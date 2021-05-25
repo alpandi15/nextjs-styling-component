@@ -1,5 +1,6 @@
 import axios from 'axios'
 import getConfig from 'next/config'
+import { parseCookies  } from 'nookies'
 import { TOKEN } from '../../constants'
 import { getCookies } from './storage'
 
@@ -9,13 +10,14 @@ type Params = {
   fullUrl?: boolean,
   url: string,
   method: string,
-  data: Object,
+  data?: any,
   auth: boolean,
   type?: string,
   requiredToken?: boolean,
   responseHtml?: boolean,
   headers?: any,
   params?: Object,
+  context?: any
 }
 
 export async function request({
@@ -30,10 +32,16 @@ export async function request({
   },
   params = {},
   type = 'json',
-  method
+  method,
+  context
 }: Params) {
   const useUrl = (fullUrl ? url : `${publicRuntimeConfig.API_URL}${url}`)
-  const token = await getCookies(TOKEN)
+  let token: string
+  if (context) {
+    token = parseCookies(context)[TOKEN]
+  } else {
+    token = await getCookies(TOKEN)
+  }
 
   switch (type) {
     case 'json': {

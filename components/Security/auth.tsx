@@ -51,7 +51,6 @@ export const withAuthSync = (WrappedComponent: NextComponentType) => class exten
     && (await WrappedComponent.getInitialProps(ctx))
 
     const token = await auth(ctx)
-    console.log('TOKEN INI ', token)
     return { ...componentProps, token }
   }
 

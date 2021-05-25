@@ -1,8 +1,9 @@
 import { Component } from 'react'
 import Router from 'next/router'
+import { NextComponentType, NextPageContext } from 'next'
 import { parseCookies  } from 'nookies'
 
-const getDisplayName = (Component: any) => Component.displayName || Component.name || 'Component'
+const getDisplayName = (Components: any) => Components.displayName || Components.name || 'Component'
 
 export const auth = (ctx: any) => {
   const token = parseCookies(ctx).jwt
@@ -14,10 +15,11 @@ export const auth = (ctx: any) => {
    */
 
   if (ctx.req && !token) {
+    console.log('PATH ', ctx?.pathname)
     const redirect = ctx
       && ctx.pathname
       && ctx.pathname !== '/auth/login'
-        ? '/auth/login?path=/home'
+        ? `/auth/login?path=${ctx?.pathname}`
         : '/auth/login'
 
     ctx.res.writeHead(302, {
@@ -40,11 +42,11 @@ export const auth = (ctx: any) => {
   return token
 }
 
-export const withAuthSync = (WrappedComponent: any) => class extends Component {
+export const withAuthSync = (WrappedComponent: NextComponentType) => class extends Component {
   static displayName = `withAuthSync(${getDisplayName(WrappedComponent)})`
 
-  static async getInitialProps (ctx: any) {
-    console.log('Initial Server ', ctx)
+  static async getInitialProps (ctx: NextPageContext) {
+    // console.log('Initial Server ', ctx)
     const componentProps = WrappedComponent.getInitialProps
     && (await WrappedComponent.getInitialProps(ctx))
 

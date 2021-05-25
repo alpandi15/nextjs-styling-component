@@ -1,7 +1,7 @@
 // import getConfig from 'next/config'
 // import Router from 'next/router'
 import { parseCookies  } from 'nookies'
-import type { AppProps } from 'next/app'
+import type { AppProps, AppContext } from 'next/app'
 import GlobalStyle from '../styles/GlobalStyle'
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 //   }
 // }
 
-MyApp.getInitialProps = async ({Component, ctx}: any) => {
+MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
   let pageProps = {}
   const jwt = parseCookies(ctx).jwt
   console.log('JWT TOKEN ', jwt)

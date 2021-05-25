@@ -1,14 +1,4 @@
-// import {
-//     Box,
-//     Code,
-//     Container,
-//     Flex,
-//     Heading,
-//     Icon,
-//     Link,
-//     Spacer,
-//     Text,
-//   } from "@chakra-ui/react";
+import { APPNAME, APP_DESCRIPTION } from '../../constants'
 import Head from "next/head";
 import React, { ReactNode } from "react";
 import {
@@ -22,12 +12,12 @@ type Props = {
 
 const Layout = ({
   children,
-  title = 'Next JS'
+  title = `${APPNAME}`
 }: Props) => {
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{`${title} | ${APP_DESCRIPTION}`}</title>
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>

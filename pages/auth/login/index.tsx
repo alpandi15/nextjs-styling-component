@@ -18,6 +18,7 @@ import {
   device
 } from '../../../styles/LayoutStyle'
 import { loggedChecked } from '../../../components/Security/auth'
+import { apiLogin } from '../../../services/auth'
 
 type FormInputProps = {
   username: string,
@@ -25,22 +26,6 @@ type FormInputProps = {
 }
 
 const { publicRuntimeConfig } = getConfig()
-
-const loginAction = async (data: FormInputProps) => {
-  const response = await fetch(`${publicRuntimeConfig.API_URL}/auth/login`, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data)
-  })
-  if (!response.ok) {
-    throw new Error("Fetching Error");
-  }
-  
-  return await response.json()
-}
 
 export default loggedChecked(function Login () {
   const {
@@ -53,15 +38,15 @@ export default loggedChecked(function Login () {
   } = useForm<FormInputProps>()
 
   const onSubmit = async (data: FormInputProps) => {
-    const login = await loginAction(data)
-    if (login?.success) {
-      setCookie(null, 'jwt', login?.data?.access_token , {
-        maxAge: 30 * 24 * 60 * 60,
-        path: '/',
-      })
+    const login = await apiLogin(data)
+    // if (login?.success) {
+    //   setCookie(null, 'jwt', login?.data?.access_token , {
+    //     maxAge: 30 * 24 * 60 * 60,
+    //     path: '/',
+    //   })
 
-      Router.push('/home')
-    }
+    //   Router.push('/home')
+    // }
     console.log(data, login)
   }
 

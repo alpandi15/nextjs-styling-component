@@ -33,11 +33,14 @@ export default loggedChecked(function Register () {
   const {
     register,
     handleSubmit,
+    watch,
     formState: {
       errors,
       isSubmitting
     }
-  } = useForm<FormInputProps>()
+  } = useForm<FormInputProps>({
+    mode: "onBlur"
+  })
 
   const onSubmit = async (data: FormInputProps) => {
     const login = await apiRegister(data)
@@ -167,7 +170,13 @@ export default loggedChecked(function Register () {
                 type="password"
                 id="password"
                 className={errors?.password ? 'invalid' : ''}
-                {...register('password', { required: 'Password Required*' })}
+                {...register('password', {
+                  required: 'Password Required*',
+                  minLength: {
+                    value: 6,
+                    message: 'Minimal 6 character'
+                  }
+                })}
               />
               <Label
                 htmlFor="password"
@@ -176,6 +185,34 @@ export default loggedChecked(function Register () {
               {
                 errors?.password && (
                   <ErrorInputMessage>{errors?.password?.message}</ErrorInputMessage>
+                )
+              }
+            </FormControl>
+            <FormControl>
+              <Input
+                type="password"
+                id="confirm_password"
+                className={errors?.confirm_password ? 'invalid' : ''}
+                {...register('confirm_password', {
+                  required: 'Confirm Password Required*',
+                  minLength: {
+                    value: 6,
+                    message: 'Minimal 6 character'
+                  },
+                  validate: value => {
+                    const check = value === watch('password')
+                    if (check) return true
+                    return 'The passwords do not match'
+                  }
+                })}
+              />
+              <Label
+                htmlFor="confirm_password"
+                className={`active ${errors?.confirm_password ? 'invalid' : 'valid'}`}
+              >Ulangi Kata Sandi</Label>
+              {
+                errors?.confirm_password && (
+                  <ErrorInputMessage>{errors?.confirm_password?.message}</ErrorInputMessage>
                 )
               }
             </FormControl>

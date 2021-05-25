@@ -60,7 +60,7 @@ export default loggedChecked(function Login () {
         path: '/',
       })
 
-      Router.push('/conversation')
+      Router.push('/home')
     }
     console.log(data, login)
   }

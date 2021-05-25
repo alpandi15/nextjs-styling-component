@@ -89,7 +89,7 @@ export const isLogged = (ctx: any) => {
    * means user is not logged in.
    */
   if (ctx.req && token) {
-    let redirect = '/conversation'
+    let redirect = '/home'
     ctx.res.writeHead(302, {
       Location: redirect
     })
@@ -99,7 +99,7 @@ export const isLogged = (ctx: any) => {
 
   // We already checked for server. This should only happen on client.
   if (token) {
-    let redirect = '/conversation'
+    let redirect = '/home'
     Router.push(redirect)
   }
 

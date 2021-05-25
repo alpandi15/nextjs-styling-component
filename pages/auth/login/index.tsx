@@ -1,6 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
-import getConfig from 'next/config'
+import { TOKEN } from '../../../constants'
 import styled from 'styled-components'
 import {
   useForm
@@ -25,8 +25,6 @@ type FormInputProps = {
   password: string
 }
 
-const { publicRuntimeConfig } = getConfig()
-
 export default loggedChecked(function Login () {
   const {
     register,
@@ -39,14 +37,14 @@ export default loggedChecked(function Login () {
 
   const onSubmit = async (data: FormInputProps) => {
     const login = await apiLogin(data)
-    // if (login?.success) {
-    //   setCookie(null, 'jwt', login?.data?.access_token , {
-    //     maxAge: 30 * 24 * 60 * 60,
-    //     path: '/',
-    //   })
+    if (login?.success) {
+      setCookie(null, TOKEN, login?.data?.access_token , {
+        maxAge: 7 * 24 * 60 * 60,
+        path: '/',
+      })
 
-    //   Router.push('/home')
-    // }
+      Router.push('/home')
+    }
     console.log(data, login)
   }
 

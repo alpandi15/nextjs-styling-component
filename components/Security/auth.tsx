@@ -1,4 +1,5 @@
 import { Component } from 'react'
+import { TOKEN } from '../../constants'
 import Router from 'next/router'
 import { NextComponentType, NextPageContext } from 'next'
 import { parseCookies  } from 'nookies'
@@ -6,7 +7,7 @@ import { parseCookies  } from 'nookies'
 const getDisplayName = (Components: NextComponentType) => Components.displayName || Components.name || 'Component'
 
 export const auth = (ctx: any) => {
-  const token = parseCookies(ctx).jwt
+  const token = parseCookies(ctx)[TOKEN]
   /*
    * This happens on server only, ctx.req is available means it's being
    * rendered on server. If we are on server and token is not available,
@@ -82,7 +83,7 @@ export const withAuthSync = (WrappedComponent: NextComponentType) => class exten
 
 
 export const isLogged = (ctx: any) => {
-  const token = parseCookies(ctx).jwt
+  const token = parseCookies(ctx)[TOKEN]
   /*
    * This happens on server only, ctx.req is available means it's being
    * rendered on server. If we are on server and token is not available,

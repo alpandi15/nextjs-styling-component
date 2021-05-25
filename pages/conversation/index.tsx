@@ -1,7 +1,8 @@
 import React from 'react'
 import { withAuthSync } from '../../components/Security/auth'
 
-const Conversation = () => {
+const Conversation = (props: any) => {
+  console.log('DARI HALAMAN CONVER ', props)
   return (
     <>
       Masuk Ke Conversation

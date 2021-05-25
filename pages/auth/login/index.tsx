@@ -17,6 +17,7 @@ import Button from '../../../components/Form/Button'
 import {
   device
 } from '../../../styles/LayoutStyle'
+import { loggedChecked } from '../../../components/Security/auth'
 
 type FormInputProps = {
   username: string,
@@ -41,7 +42,7 @@ const loginAction = async (data: FormInputProps) => {
   return await response.json()
 }
 
-export default function Login () {
+export default loggedChecked(function Login () {
   const {
     register,
     handleSubmit,
@@ -124,7 +125,7 @@ export default function Login () {
       </Content>
     </Layout>
   )
-}
+})
 
 const Content = styled.div`
   display: flex;

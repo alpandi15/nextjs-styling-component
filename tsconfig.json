@@ -16,7 +16,17 @@
     "alwaysStrict": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "baseUrl": ".",
+    "paths": {
+      "services/*": ["./services"],
+      "constants/*": ["./constants"],
+      "components/*": ["./components"],
+      "pages/*": ["./pages"],
+      "static/*": ["."],
+      "public/*": ["./public"],
+      "styles/*": ["./styles]"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

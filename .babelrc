@@ -5,11 +5,12 @@
     [
       "module-resolver",
       {
-        // "root": [
-        //   "./src"
-        // ],
+        "root": [
+          "./"
+        ],
         "alias": {
-          "actions": "./src/actions",
+          "services": "./services",
+          "constants": "./constants",
           "components": "./components",
           "pages": "./pages",
           "static": ".",

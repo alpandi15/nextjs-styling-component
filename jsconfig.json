@@ -6,6 +6,9 @@
     "paths": {
       "components/*": ["components*"],
       "public/*": ["public*"],
+      "constants/*": ["constants*"],
+      "services/*": ["services*"],
+      "styles/*": ["styles*"],
     }
   },
   "exclude": ["node_modules", "dist"]

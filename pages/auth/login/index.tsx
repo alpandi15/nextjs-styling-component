@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import Router from 'next/router'
 import { TOKEN } from '../../../constants'
 import styled from 'styled-components'
@@ -61,8 +62,7 @@ export default loggedChecked(function Login () {
                 className={errors?.username ? 'invalid' : ''}
                 {...register('username',
                   {
-                    required: 'Username Required*',
-                    // pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                    required: 'Username Required*'
                   })
                 }
               />
@@ -73,8 +73,7 @@ export default loggedChecked(function Login () {
               {
                 errors?.username && (
                   <ErrorInputMessage>
-                    {errors?.username?.type === 'required' && errors?.username?.message}
-                    {errors?.username?.type === 'pattern' && 'Email Invalid'}
+                    {errors?.username?.message}
                   </ErrorInputMessage>
                 )
               }
@@ -96,12 +95,22 @@ export default loggedChecked(function Login () {
                 )
               }
             </FormControl>
-            <div style={{ marginTop: '2rem' }}>
+            <div style={{
+              marginTop: '2rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}>
               <Button
                 title="Masuk"
                 type="submit"
                 disabled={isSubmitting}
               />
+              <div>
+                <Link href="/auth/register">
+                  <a>Register</a>
+                </Link>
+              </div>
             </div>
           </form>
         </FormContent>

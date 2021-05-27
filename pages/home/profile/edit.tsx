@@ -1,11 +1,9 @@
 import React from 'react'
 import Router from 'next/router'
-import { TOKEN } from '../../../constants'
 import styled from 'styled-components'
 import {
   useForm
 } from 'react-hook-form'
-import { setCookie } from 'nookies'
 import Layout from '../../../components/Layout'
 import {
   FormControl,

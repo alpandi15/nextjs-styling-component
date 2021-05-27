@@ -18,7 +18,7 @@ import {
   device
 } from '../../../styles/LayoutStyle'
 import { withAuthSync } from '../../../components/Security/auth'
-import { apiRegister } from '../../../services/auth'
+import { apiEditProfile } from '../../../services/account'
 import { useUserContext } from '../../../components/Context/UserContext'
 
 type FormInputProps = {
@@ -35,29 +35,32 @@ export default withAuthSync(function Register () {
   const {
     register,
     handleSubmit,
-    watch,
     formState: {
       errors,
       isSubmitting
     }
   } = useForm<FormInputProps>({
-    mode: "onBlur"
+    mode: "onBlur",
+    reValidateMode: 'onChange',
+    criteriaMode: "firstError",
+    defaultValues: {
+      name: state?.user?.name,
+      username: state?.user?.username,
+      phone: state?.user?.phone
+    },
+    shouldFocusError: true,
+    shouldUnregister: true
   })
 
   const onSubmit = async (data: FormInputProps) => {
-    const login = await apiRegister(data)
+    const login = await apiEditProfile(data)
     if (login?.success) {
-      setCookie(null, TOKEN, login?.data?.access_token , {
-        maxAge: 7 * 24 * 60 * 60,
-        path: '/',
-      })
-
-      Router.push('/home')
+      Router.replace('/home/profile')
     }
     console.log(data, login)
   }
 
-  console.log('STATE CONTEXT ', state)
+  console.log('STATE CONTEXTs ', state)
   return (
     <Layout title="Edit Profile">
       <Content>
@@ -92,33 +95,6 @@ export default withAuthSync(function Register () {
             <FormControl>
               <Input
                 type="text"
-                id="email"
-                className={errors?.email ? 'invalid' : ''}
-                {...register('email',
-                  {
-                    required: 'Email Required*',
-                    pattern: {
-                      value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      message: 'Email Format Invalid'
-                    }
-                  })
-                }
-              />
-              <Label
-                htmlFor="email"
-                className={`active ${errors?.email ? 'invalid' : 'valid'}`}
-              >Email</Label>
-              {
-                errors?.email && (
-                  <ErrorInputMessage>
-                    {errors?.email?.message}
-                  </ErrorInputMessage>
-                )
-              }
-            </FormControl>
-            <FormControl>
-              <Input
-                type="text"
                 id="username"
                 className={errors?.username ? 'invalid' : ''}
                 {...register('username',
@@ -136,86 +112,6 @@ export default withAuthSync(function Register () {
                   <ErrorInputMessage>
                     {errors?.username?.message}
                   </ErrorInputMessage>
-                )
-              }
-            </FormControl>
-            <FormControl>
-              <Input
-                type="text"
-                id="phone"
-                className={errors?.phone ? 'invalid' : ''}
-                {...register('phone',
-                  {
-                    required: 'Phone Required*',
-                    maxLength: { value: 30, message: 'Max Length 30 character' },
-                    minLength: { value: 6, message: 'Min Length 6 character' },
-                    pattern: {
-                      value: /^(^08)(\d{3,4}-?){2}\d{3,4}$/,
-                      message: 'Use Phone Number Format'
-                    }
-                  })
-                }
-              />
-              <Label
-                htmlFor="phone"
-                className={`active ${errors?.phone ? 'invalid' : 'valid'}`}
-              >Phone Number</Label>
-              {
-                errors?.phone && (
-                  <ErrorInputMessage>
-                    {errors?.phone?.message}
-                  </ErrorInputMessage>
-                )
-              }
-            </FormControl>
-            <FormControl>
-              <Input
-                type="password"
-                id="password"
-                className={errors?.password ? 'invalid' : ''}
-                {...register('password', {
-                  required: 'Password Required*',
-                  minLength: {
-                    value: 6,
-                    message: 'Minimal 6 character'
-                  }
-                })}
-              />
-              <Label
-                htmlFor="password"
-                className={`active ${errors?.password ? 'invalid' : 'valid'}`}
-              >Kata Sandi</Label>
-              {
-                errors?.password && (
-                  <ErrorInputMessage>{errors?.password?.message}</ErrorInputMessage>
-                )
-              }
-            </FormControl>
-            <FormControl>
-              <Input
-                type="password"
-                id="confirm_password"
-                className={errors?.confirm_password ? 'invalid' : ''}
-                {...register('confirm_password', {
-                  required: 'Confirm Password Required*',
-                  minLength: {
-                    value: 6,
-                    message: 'Minimal 6 character'
-                  },
-                  validate: value => {
-                    const check = value === watch('password')
-                    if (check) return true
-                    return 'The passwords do not match'
-                  }
-                })}
-              />
-              <Label
-                htmlFor="confirm_password"
-                className={`active ${errors?.confirm_password ? 'invalid' : 'valid'}`}
-              >Ulangi Kata Sandi</Label>
-              {
-                errors?.confirm_password && (
-                  <ErrorInputMessage>{errors?.confirm_password?.message}</ErrorInputMessage>
                 )
               }
             </FormControl>

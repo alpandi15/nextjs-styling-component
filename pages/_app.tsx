@@ -4,7 +4,8 @@ import UserContext from '../components/Context/UserContext'
 import { apiGetProfile } from '../services/auth'
 
 interface MyProps {
-  user?: any
+  user?: any,
+  logout: Function
 }
 
 function MyApp({ Component, pageProps, user }: AppProps & MyProps) {

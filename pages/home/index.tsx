@@ -10,7 +10,6 @@ const Home = () => {
   const logoutUser = async () => {
     return logout()
   }
-
   return (
     <Content>
       <div>

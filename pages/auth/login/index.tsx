@@ -112,6 +112,13 @@ export default loggedChecked(function Login () {
                 </Link>
               </div>
             </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <div>
+                <Link href="/auth/forgot-password">
+                  <a style={{ fontSize: '10px' }}>Lupa Password</a>
+                </Link>
+              </div>
+            </div>
           </form>
         </FormContent>
       </Content>

@@ -36,28 +36,9 @@ const apiChangePhone = async (data: any) => {
   })
 }
 
-const apiSendCode = async (type: any) => {
-  return request({
-    url: `/auth/request-verify/${type}`,
-    auth: true,
-    method: 'post'
-  })
-}
-
-const apiVerifyCode = async (data: any) => {
-  return request({
-    url: '/auth/verification',
-    auth: true,
-    data,
-    method: 'post'
-  })
-}
-
 export {
   apiEditProfile,
   apiChangePassword,
   apiChangeEmail,
-  apiChangePhone,
-  apiSendCode,
-  apiVerifyCode
+  apiChangePhone
 }

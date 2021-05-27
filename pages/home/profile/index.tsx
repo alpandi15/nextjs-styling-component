@@ -30,6 +30,11 @@ const Profile = () => {
         <Link href="/home/profile/edit">
           <a>Edit</a>
         </Link>
+        <div>
+          <Link href="/home/profile/edit/password">
+            <a>{`Update Password >>`}</a>
+          </Link>
+        </div>
       </div>
     </Content>
   )

@@ -4,31 +4,28 @@ import styled from 'styled-components'
 import {
   useForm
 } from 'react-hook-form'
-import Layout from '../../../components/Layout'
+import Layout from '../../../../components/Layout'
 import {
   FormControl,
   Input,
   Label,
   ErrorInputMessage
-} from '../../../styles/FormStyle'
-import Button from '../../../components/Form/Button'
+} from '../../../../styles/FormStyle'
+import Button from '../../../../components/Form/Button'
 import {
   device
-} from '../../../styles/LayoutStyle'
-import { withAuthSync } from '../../../components/Security/auth'
-import { apiEditProfile } from '../../../services/account'
-import { useUserContext } from '../../../components/Context/UserContext'
+} from '../../../../styles/LayoutStyle'
+import { withAuthSync } from '../../../../components/Security/auth'
+import { apiEditProfile } from '../../../../services/account'
+import { useUserContext } from '../../../../components/Context/UserContext'
 
 type FormInputProps = {
   name: string,
   username: string,
-  email: string,
-  password: string,
-  confirm_password: string,
   phone: string
 }
 
-export default withAuthSync(function Register () {
+export default withAuthSync(function EditProfile () {
   const state = useUserContext()
   const {
     register,

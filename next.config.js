@@ -30,10 +30,11 @@ module.exports = {
   },
 
   webpack: config => {
-    config.resolve.alias['components'] = path.join(__dirname, 'components')
-    config.resolve.alias['public'] = path.join(__dirname, 'public')
-    config.resolve.alias['styles'] = path.join(__dirname, 'styles')
-    config.resolve.alias['constants'] = path.join(__dirname, 'constants')
+    config.resolve.alias['@/components'] = path.join(__dirname, 'components')
+    config.resolve.alias['@/public'] = path.join(__dirname, 'public')
+    config.resolve.alias['@/styles'] = path.join(__dirname, 'styles')
+    config.resolve.alias['@/constants'] = path.join(__dirname, 'constants')
+    config.resolve.alias['@/services'] = path.join(__dirname, 'services')
     config.resolve.extensions = ['.ts', '.tsx', '.js']
     return config
   }

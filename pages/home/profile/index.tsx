@@ -2,11 +2,11 @@ import React from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
 import { withAuthSync } from '../../../components/Security/auth'
-import { apiGetProfile } from '../../../services/auth'
+import { useUserContext } from '../../../components/Context/UserContext'
 
-const Profile = ({
-  userData
-}: any) => {
+const Profile = () => {
+  const state = useUserContext()
+
   return (
     <Content>
       <div>
@@ -15,15 +15,15 @@ const Profile = ({
       <div>
         <div>
           <div><b>Name</b></div>
-          <div>{userData?.name}</div>
+          <div>{state?.user?.name}</div>
         </div>
         <div>
           <div><b>Email</b></div>
-          <div>{userData?.email}</div>
+          <div>{state?.user?.email}</div>
         </div>
         <div>
           <div><b>Username</b></div>
-          <div>{userData?.username}</div>
+          <div>{state?.user?.username}</div>
         </div>
       </div>
       <div>

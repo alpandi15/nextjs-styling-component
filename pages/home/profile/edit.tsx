@@ -1,25 +1,25 @@
 import React from 'react'
 import Router from 'next/router'
-import { TOKEN } from 'constants'
+import { TOKEN } from '../../../constants'
 import styled from 'styled-components'
 import {
   useForm
 } from 'react-hook-form'
 import { setCookie } from 'nookies'
-import Layout from 'components/Layout'
+import Layout from '../../../components/Layout'
 import {
   FormControl,
   Input,
   Label,
   ErrorInputMessage
-} from 'styles/FormStyle'
-import Button from 'components/Form/Button'
+} from '../../../styles/FormStyle'
+import Button from '../../../components/Form/Button'
 import {
   device
-} from 'styles/LayoutStyle'
-import { withAuthSync } from 'components/Security/auth'
-import { apiRegister } from 'services/auth'
-import { useContext } from '../../../components/Context/UserContext'
+} from '../../../styles/LayoutStyle'
+import { withAuthSync } from '../../../components/Security/auth'
+import { apiRegister } from '../../../services/auth'
+import { useUserContext } from '../../../components/Context/UserContext'
 
 type FormInputProps = {
   name: string,
@@ -31,7 +31,7 @@ type FormInputProps = {
 }
 
 export default withAuthSync(function Register () {
-  const state = useContext()
+  const state = useUserContext()
   const {
     register,
     handleSubmit,

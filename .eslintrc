@@ -2,7 +2,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "airbnb"
+    "airbnb",
+    "prettier"
   ],
   "plugins": [
     "react"
@@ -108,7 +109,9 @@
   },
   "env": {
     "jest": true,
-    "browser": true
+    "browser": true,
+    "node": true,
+    "es6": true
   },
   "parser": "babel-eslint",
   "globals": {
@@ -126,14 +129,16 @@
     "FormData": true,
     "GLOBAL": true,
     "XMLHttpRequest": true,
-    "_": true
+    "_": true,
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
   },
   "parserOptions": {
+    "parser": "typescript-eslint-parser",
     "sourceType": "module",
-    "ecmaVersion": 8,
+    "ecmaVersion": 2018,
     "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "legacyDecorators": true
+      "jsx": true
     }
   }
   // "linebreak-style": ["error", "windows"]

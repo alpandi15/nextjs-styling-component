@@ -2,11 +2,11 @@ import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { withAuthSync } from '../../components/Security/auth'
-import { apiGetProfile, logout } from '../../services/auth'
+import { logout } from '../../services/auth'
+import { useUserContext } from '../../components/Context/UserContext'
 
-const Home = ({
-  userData
-}: any) => {
+const Home = () => {
+  const state = useUserContext()
   const logoutUser = async () => {
     return logout()
   }
@@ -17,7 +17,7 @@ const Home = ({
         <div>Selamat Datang,</div>
         <b>
           {
-            userData?.name
+            state?.user?.name
           }
         </b>
         {' '}
@@ -30,14 +30,6 @@ const Home = ({
       </div>
     </Content>
   )
-}
-
-Home.getInitialProps = async function (ctx: any) {
-  const response = await apiGetProfile(ctx)
-  if (response?.success)
-    return {
-      userData: response?.data
-    }
 }
 
 export default withAuthSync(Home)

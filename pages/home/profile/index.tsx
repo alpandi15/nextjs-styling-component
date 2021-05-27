@@ -35,14 +35,6 @@ const Profile = ({
   )
 }
 
-Profile.getInitialProps = async function (ctx: any) {
-  const response = await apiGetProfile(ctx)
-  if (response?.success)
-    return {
-      userData: response?.data
-    }
-}
-
 export default withAuthSync(Profile)
 
 const Content = styled.div`

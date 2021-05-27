@@ -19,6 +19,7 @@ import {
 } from 'styles/LayoutStyle'
 import { withAuthSync } from 'components/Security/auth'
 import { apiRegister } from 'services/auth'
+import { useContext } from '../../../components/Context/UserContext'
 
 type FormInputProps = {
   name: string,
@@ -30,6 +31,7 @@ type FormInputProps = {
 }
 
 export default withAuthSync(function Register () {
+  const state = useContext()
   const {
     register,
     handleSubmit,
@@ -55,11 +57,12 @@ export default withAuthSync(function Register () {
     console.log(data, login)
   }
 
+  console.log('STATE CONTEXT ', state)
   return (
-    <Layout title="Register">
+    <Layout title="Edit Profile">
       <Content>
         <FormContent>
-          <h3>Register</h3>
+          <h3>Edit Profile</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
               <Input
@@ -218,7 +221,7 @@ export default withAuthSync(function Register () {
             </FormControl>
             <div style={{ marginTop: '2rem' }}>
               <Button
-                title="Daftar"
+                title="Edit"
                 type="submit"
                 disabled={isSubmitting}
               />

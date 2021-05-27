@@ -34,7 +34,7 @@ module.exports = {
     config.resolve.alias['public'] = path.join(__dirname, 'public')
     config.resolve.alias['styles'] = path.join(__dirname, 'styles')
     config.resolve.alias['constants'] = path.join(__dirname, 'constants')
-
+    config.resolve.extensions = ['.ts', '.tsx', '.js']
     return config
   }
 }

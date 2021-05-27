@@ -17,7 +17,7 @@ import {
 } from '../../../styles/LayoutStyle'
 import { loggedChecked } from '../../../components/Security/auth'
 import { verificationCode } from '../../../services/auth/verificationService'
-import { set, get } from '../../../services/utils/storage'
+import { get } from '../../../services/utils/storage'
 import {
   FORGOT_EXPIRED_CODE,
   TYPE_CODE_FORGOT,

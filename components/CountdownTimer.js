@@ -38,14 +38,13 @@ class Countdown extends React.Component {
   componentDidMount () {
     this.interval = setInterval(() => {
       const { timeTillDate, timeOut } = this.props
-      const then = moment(timeTillDate, 'YYYY-MM-DD HH:mm:ss')
+      const then = moment(timeTillDate)
       const now = moment()
       const countdown = (moment(then).diff(moment(now)) / 1000)
 
       this.setState({
         time: secondsToTime(countdown)
       })
-
       // Check if we're at zero.
       if (countdown <= 0) {
         console.log('TIME OUT ', countdown)

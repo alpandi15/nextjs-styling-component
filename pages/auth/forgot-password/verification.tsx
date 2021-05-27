@@ -34,7 +34,7 @@ const getExpiredStorage = async () => {
 }
 
 export default loggedChecked(function ForgotPassword () {
-  const [expiredCode, setExpiredCode] = React.useState(null)
+  const [expiredCode, setExpiredCode] = React.useState<Date>(new Date())
   const router = useRouter()
 
   const {
@@ -117,7 +117,7 @@ export default loggedChecked(function ForgotPassword () {
               <span>Sisa Waktu: </span>
               {
                 expiredCode && (
-                  <CountDown timeTillDate={new Date(expiredCode)} timeOut={() => console.log('Waktu habis')} title="Time Out" />
+                  <CountDown timeTillDate={expiredCode} timeOut={() => console.log('Waktu habis')} title="Time Out" />
                 )
               }
             </CountContent>

@@ -1,5 +1,6 @@
 import React from 'react'
 import Router from 'next/router'
+import moment from 'moment'
 import styled from 'styled-components'
 import {
   useForm
@@ -40,7 +41,7 @@ export default loggedChecked(function ForgotPassword () {
       roleId: 2
     })
     if (response?.success) {
-      await set(FORGOT_EXPIRED_CODE, response?.data?.expired)
+      await set(FORGOT_EXPIRED_CODE, moment(response?.data?.expired, 'YYYY-MM-DD HH:mm:ss').add({ hours: 7 }))
       Router.push({
         pathname: '/auth/forgot-password/verification',
         query: { email: data?.email }

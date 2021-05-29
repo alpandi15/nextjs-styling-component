@@ -36,6 +36,10 @@ export type AppContextType = {
   logout?: () => void
 }
 
-const AppContext = createContext<AppContextType | null>(null)
+const initialData = {
+  user: {},
+  logout: () => {}
+}
+const AppContext = createContext<AppContextType>(initialData)
 
 export default AppContext

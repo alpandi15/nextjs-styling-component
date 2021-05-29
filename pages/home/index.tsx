@@ -2,21 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { withAuthSync } from '../../components/Security/auth'
-import { logout } from '../../services/auth'
 import { useAppContext } from '../../hook/useAppData'
 
 const Home = () => {
-  const state = useAppContext()
-  const logoutUser = async () => {
-    return logout()
-  }
+  const { user, logout } = useAppContext()
   return (
     <Content>
       <div>
         <div>Selamat Datang,</div>
         <b>
           {
-            state?.user?.name
+            user?.name
           }
         </b>
         {' '}
@@ -24,7 +20,7 @@ const Home = () => {
           <a>{`Profil's >>`}</a>
         </Link>
         <div>
-          <Logout onClick={logoutUser}>Logout</Logout>
+          <Logout onClick={logout}>Logout</Logout>
         </div>
       </div>
     </Content>

@@ -25,7 +25,7 @@ type FormInputProps = {
   password: string
 }
 
-export default loggedChecked(function REsetPassword () {
+export default loggedChecked(function ResetPassword () {
   const router = useRouter()
   const {
     register,

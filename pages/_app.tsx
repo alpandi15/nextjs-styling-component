@@ -1,12 +1,19 @@
 import type { AppProps, AppContext } from 'next/app'
 import GlobalStyle from '../styles/GlobalStyle'
-import { apiGetProfile } from '../services/auth'
-import ApplicationContext, { AppContextType } from '../context/AppContext'
+import { apiGetProfile, logout } from '../services/auth'
+import ApplicationContext, { AppContextType, UserDataContext } from '../context/AppContext'
 
-function MyApp({ Component, pageProps, user }: AppProps & AppContextType) {
+function MyApp({
+  Component,
+  pageProps,
+  user
+}: AppProps & AppContextType) {
   return (
     <ApplicationContext.Provider
-      value={{ user }}
+      value={{
+        user,
+        logout
+      }}
     >
       <Component {...pageProps} />
       <GlobalStyle />
@@ -16,7 +23,7 @@ function MyApp({ Component, pageProps, user }: AppProps & AppContextType) {
 
 MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
   let pageProps = {}
-  let user: any = {}
+  let user: UserDataContext = {}
 
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx)

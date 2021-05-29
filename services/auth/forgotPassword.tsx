@@ -1,7 +1,7 @@
 import { request } from '../utils/request'
 
 type Forgot = {
-  account: string,
+  account: string | string[] | undefined,
   roleId: number
 }
 

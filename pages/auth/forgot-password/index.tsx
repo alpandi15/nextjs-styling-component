@@ -54,7 +54,6 @@ export default loggedChecked(function ForgotPassword () {
     } else {
       alert('Error ')
     }
-    console.log(data, response)
   }
 
   return (

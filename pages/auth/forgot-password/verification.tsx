@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import {
   useForm
 } from 'react-hook-form'
+import moment from 'moment'
 import Layout from '../../../components/Layout'
 import {
   FormControl,
@@ -17,7 +18,8 @@ import {
 } from '../../../styles/LayoutStyle'
 import { loggedChecked } from '../../../components/Security/auth'
 import { verificationCode } from '../../../services/auth/verificationService'
-import { get } from '../../../services/utils/storage'
+import { apiForgotPassword } from '../../../services/auth/forgotPassword'
+import { get, set } from '../../../services/utils/storage'
 import {
   FORGOT_EXPIRED_CODE,
   TYPE_CODE_FORGOT,
@@ -56,7 +58,6 @@ export default loggedChecked(function ForgotPassword () {
 
   const onSubmit = async (data: FormInputProps) => {
     const { query } = router
-    console.log('QUERY ', query)
     const response = await verificationCode({
       code: data?.code,
       account: query.email,
@@ -70,6 +71,27 @@ export default loggedChecked(function ForgotPassword () {
       })
     }
     console.log(data, response)
+  }
+
+  const resendCode = async () => {
+    const { query } = router
+    if (!query?.email) {
+      router.replace('/auth/forgot-password')
+      return
+    }
+
+    const response = await apiForgotPassword('email', {
+      account: query?.email,
+      roleId: 2
+    })
+    if (response?.success) {
+      await set(FORGOT_EXPIRED_CODE, moment(response?.data?.expired, 'YYYY-MM-DD HH:mm:ss').add({ hours: 7 }))
+      window.location.reload()
+    } else if (typeof response.detail === 'object') {
+      window.location.reload()
+    } else {
+      alert('Error ')
+    }
   }
 
   return (
@@ -114,10 +136,13 @@ export default loggedChecked(function ForgotPassword () {
               />
 
             <CountContent>
-              <span>Sisa Waktu: </span>
               {
                 expiredCode && (
-                  <CountDown timeTillDate={expiredCode} timeOut={() => console.log('Waktu habis')} title="Time Out" />
+                  <CountDown
+                    timeTillDate={expiredCode}
+                    timeOut={() => console.log('Waktu habis')}
+                    resendCode={resendCode}
+                  />
                 )
               }
             </CountContent>

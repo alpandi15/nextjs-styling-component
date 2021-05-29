@@ -1,13 +1,19 @@
 import type { AppProps, AppContext } from 'next/app'
+import { FC } from 'react'
+import { SyncLoader } from 'react-spinners'
+import styled from 'styled-components'
 import GlobalStyle from '../styles/GlobalStyle'
 import { apiGetProfile, logout } from '../services/auth'
 import ApplicationContext, { AppContextType, UserDataContext } from '../context/AppContext'
+import { useRouteState } from '../hook/useRouteState'
 
 function MyApp({
   Component,
   pageProps,
   user
 }: AppProps & AppContextType) {
+  const routeState = useRouteState();
+  // console.log('ROUTESTATE ', routeState)
   return (
     <ApplicationContext.Provider
       value={{
@@ -15,7 +21,12 @@ function MyApp({
         logout
       }}
     >
+      <>
       <Component {...pageProps} />
+        {routeState === "start" && (
+          <Preloader>{routeState}</Preloader>
+        )}
+      </>
       <GlobalStyle />
     </ApplicationContext.Provider>
   )
@@ -42,3 +53,22 @@ MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
 }
 
 export default MyApp
+
+const Preloader: FC = () => (
+  <ContentLoader>
+    <div>
+      <SyncLoader color="#2ca58d" />
+    </div>
+  </ContentLoader>
+)
+
+const ContentLoader = styled.div`
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255,255,255, 0.7);
+`

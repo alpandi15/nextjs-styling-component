@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { withAuthSync } from '../../components/Security/auth'
 import { logout } from '../../services/auth'
-import { useUserContext } from '../../components/Context/UserContext'
+import { useAppContext } from '../../hook/useAppData'
 
 const Home = () => {
-  const state = useUserContext()
+  const state = useAppContext()
   const logoutUser = async () => {
     return logout()
   }

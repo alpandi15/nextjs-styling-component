@@ -2,10 +2,10 @@ import React from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
 import { withAuthSync } from '../../../components/Security/auth'
-import { useUserContext } from '../../../components/Context/UserContext'
+import { useAppContext } from '../../../hook/useAppData'
 
 const Profile = () => {
-  const state = useUserContext()
+  const state = useAppContext()
 
   return (
     <Content>

@@ -17,7 +17,7 @@ import {
 } from '../../../../styles/LayoutStyle'
 import { withAuthSync } from '../../../../components/Security/auth'
 import { apiEditProfile } from '../../../../services/account'
-import { useUserContext } from '../../../../components/Context/UserContext'
+import { useAppContext } from '../../../../hook/useAppData'
 
 type FormInputProps = {
   name: string,
@@ -26,7 +26,7 @@ type FormInputProps = {
 }
 
 export default withAuthSync(function EditProfile () {
-  const state = useUserContext()
+  const state = useAppContext()
   const {
     register,
     handleSubmit,

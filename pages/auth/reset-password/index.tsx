@@ -1,11 +1,9 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import { TOKEN } from '../../../constants'
 import styled from 'styled-components'
 import {
   useForm
 } from 'react-hook-form'
-import { setCookie } from 'nookies'
 import Layout from '../../../components/Layout'
 import {
   FormControl,
@@ -45,7 +43,7 @@ export default loggedChecked(function ResetPassword () {
     })
     if (login?.success) {
       router.push({
-        pathname: '/stand/auth/login'
+        pathname: '/auth/login'
       })
     }
     console.log(data, login)

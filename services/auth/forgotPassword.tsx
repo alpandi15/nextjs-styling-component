@@ -6,7 +6,7 @@ type Forgot = {
 }
 
 type ResetType = {
-  account: string,
+  account: string | string[] | undefined,
   password: string
 }
 

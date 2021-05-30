@@ -1,11 +1,15 @@
 import type { AppProps, AppContext } from 'next/app'
 import { FC } from 'react'
 import { SyncLoader } from 'react-spinners'
+import { QueryClientProvider, QueryClient } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import styled from 'styled-components'
 import GlobalStyle from '../styles/GlobalStyle'
 import { apiGetProfile, logout } from '../services/auth'
 import ApplicationContext, { AppContextType, UserDataContext } from '../context/AppContext'
 import { useRouteState } from '../hook/useRouteState'
+
+const queryClient = new QueryClient()
 
 function MyApp({
   Component,
@@ -13,22 +17,24 @@ function MyApp({
   user
 }: AppProps & AppContextType) {
   const routeState = useRouteState();
-  // console.log('ROUTESTATE ', routeState)
   return (
-    <ApplicationContext.Provider
-      value={{
-        user,
-        logout
-      }}
-    >
-      <>
-      <Component {...pageProps} />
-        {routeState === "start" && (
-          <Preloader>{routeState}</Preloader>
-        )}
-      </>
-      <GlobalStyle />
-    </ApplicationContext.Provider>
+    <QueryClientProvider client={queryClient}>
+      <ApplicationContext.Provider
+        value={{
+          user,
+          logout
+        }}
+      >
+        <>
+        <Component {...pageProps} />
+          {routeState === "start" && (
+            <Preloader>{routeState}</Preloader>
+          )}
+        </>
+        <GlobalStyle />
+      </ApplicationContext.Provider>
+      <ReactQueryDevtools />
+    </QueryClientProvider>
   )
 }
 

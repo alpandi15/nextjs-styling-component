@@ -106,6 +106,7 @@ export default loggedChecked(function Login () {
                 type="submit"
                 disabled={isSubmitting}
               />
+              <div role="button" className="text-2xl mb-3 text-center">TAILWIND</div>
               <div>
                 <Link href="/auth/register">
                   <a>Register</a>

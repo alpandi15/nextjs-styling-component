@@ -1,6 +1,15 @@
 import { createGlobalStyle } from 'styled-components'
 
 export default createGlobalStyle`
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// @font-face {
+//   font-family: noorehira;
+//   src: url(/noorehira.ttf);
+// }
+
 html,
 body {
   padding: 0;

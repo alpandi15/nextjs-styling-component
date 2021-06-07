@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { withAuthSync } from '../../components/Security/auth'
 import { useAppContext } from '../../hook/useAppData'
 
-const Home = () => {
-  const { user, logout } = useAppContext()
+const Home = ({ user }: any) => {
+  const { logout } = useAppContext()
   return (
     <Content>
       <div>

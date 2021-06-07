@@ -6,8 +6,8 @@ import { QueryClientProvider, QueryClient } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import styled from 'styled-components'
 import GlobalStyle from '../styles/GlobalStyle'
-import { apiGetProfile, logout } from '../services/auth'
-import ApplicationContext, { AppContextType, UserDataContext } from '../context/AppContext'
+import { logout } from '../services/auth'
+import ApplicationContext, { AppContextType } from '../context/AppContext'
 import { useRouteState } from '../hook/useRouteState'
 import '../styles/tailwind.css'
 
@@ -15,15 +15,14 @@ const queryClient = new QueryClient()
 
 function MyApp({
   Component,
-  pageProps,
-  user
+  pageProps
 }: AppProps & AppContextType) {
   const routeState = useRouteState();
   return (
     <QueryClientProvider client={queryClient}>
       <ApplicationContext.Provider
         value={{
-          user,
+          user: pageProps?.user,
           logout
         }}
       >
@@ -44,22 +43,24 @@ function MyApp({
 }
 
 MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
-  let pageProps = {}
-  let user: UserDataContext = {}
+  interface Props {
+    user: any
+  }
+  let pageProps: Props | any = {}
+  // let user: UserDataContext = {}
 
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx)
   }
 
-  const response = await apiGetProfile(ctx)
-  if (response?.success) {
-    user = response?.data
-  }
+  // const response = await apiGetProfile(ctx)
+  // if (response?.success) {
+  //   user = response?.data
+  // }
 
   return {
     pageProps,
-    navigation: 'Navigasi Ini',
-    user
+    navigation: 'Navigasi Ini'
   }
 }
 

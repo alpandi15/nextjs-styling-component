@@ -47,7 +47,7 @@ const Login = () => {
         path: '/',
       })
 
-      router.push('/home')
+      router.push('/home', '/home', { locale: router.locale })
     }
     console.log(data, login)
   }

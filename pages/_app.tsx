@@ -114,7 +114,6 @@ MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
   const { token, user } = await checkAuthentication(ctx)
 
   const pageUnauthenticated = [
-    '/',
     '/auth/login',
     '/auth/register',
     '/auth/forgot-password',
@@ -129,7 +128,7 @@ MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
   }
 
   if (token && user?.id) {
-    if (pageUnauthenticated.includes(ctx.pathname)) {
+    if (pageUnauthenticated.includes(ctx.pathname) && ctx.pathname !== '/') {
       redirectUserIsLogged(ctx);
     }
   }

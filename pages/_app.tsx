@@ -13,11 +13,11 @@ import ApplicationContext, { AppContextType } from '../context/AppContext'
 import { useRouteState } from '../hook/useRouteState'
 // import { auth } from 'components/Security/auth'
 import '../styles/tailwind.css'
-import Router from 'next/router'
 import { destroyCookie, parseCookies  } from 'nookies'
 import { apiGetProfile } from 'services/auth'
 import { UserDataContext } from 'context/AppContext'
 import { TOKEN } from 'constants/index'
+import { NextRouter } from 'next/router'
 
 const queryClient = new QueryClient()
 
@@ -46,13 +46,15 @@ function MyApp ({
   Component,
   pageProps,
   user,
-  token
+  token,
+  isAuthenticated
 }: AppProps & AppContextType) {
   const routeState = useRouteState();
   return (
     <QueryClientProvider client={queryClient}>
       <ApplicationContext.Provider
         value={{
+          isAuthenticated,
           user,
           token,
           logout
@@ -74,39 +76,40 @@ function MyApp ({
   )
 }
 
-function redirectUser(ctx: any) {
+function redirectUser(ctx: any, router: NextRouter) {
   if (ctx.req) {
-      const redirect = ctx
-        && ctx.pathname
-        && ctx.pathname !== '/auth/login'
-          ? `/auth/login?path=${ctx?.pathname}`
-          : '/auth/login'
+    const locale = router.locale !== router.defaultLocale ? `${router.locale}` : ''
+    const redirect = ctx
+      && ctx.pathname
+      && ctx.pathname !== `/${locale}/auth/login`
+        ? `/${locale}/auth/login?path=${ctx?.pathname}`
+        : `/${locale}/auth/login`
 
-      ctx.res.writeHead(302, {
-        Location: redirect
-      })
-      ctx.res.end()
-  } else {
-    Router.push(ctx?.pathname)
-  }
-}
-
-function redirectUserIsLogged(ctx: any) {
-  if (ctx.req) {
-    let redirect = '/home'
     ctx.res.writeHead(302, {
       Location: redirect
     })
     ctx.res.end()
   } else {
-    Router.push(ctx?.pathname)
+    router.push(ctx?.pathname)
   }
 }
 
-MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
+function redirectUserIsLogged(ctx: any, router: NextRouter) {
+    const locale = router.locale !== router.defaultLocale ? `${router.locale}` : ''
+  if (ctx.req) {
+    let redirect = `/${locale}/home`
+    ctx.res.writeHead(302, {
+      Location: redirect
+    })
+    ctx.res.end()
+  } else {
+    router.push(ctx?.pathname)
+  }
+}
+
+MyApp.getInitialProps = async ({Component, ctx, router}: AppContext) => {
   let pageProps: any = {}
   // let user: UserDataContext = {}
-
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx)
   }
@@ -121,15 +124,15 @@ MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
     '/auth/reset-password',
   ]
 
-  if (!token && !user?.id) {
-    if (!pageUnauthenticated.includes(ctx.pathname)) {
-      redirectUser(ctx);
+  if (!token && !user) {
+    if (!pageUnauthenticated.includes(ctx.pathname) && ctx.pathname !== '/') {
+      redirectUser(ctx, router);
     }
   }
 
-  if (token && user?.id) {
+  if (token && !!user) {
     if (pageUnauthenticated.includes(ctx.pathname) && ctx.pathname !== '/') {
-      redirectUserIsLogged(ctx);
+      redirectUserIsLogged(ctx, router);
     }
   }
 
@@ -137,7 +140,8 @@ MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
     pageProps,
     navigation: 'Navigasi Ini',
     user,
-    token
+    token,
+    isAuthenticated: !!user
   }
 }
 

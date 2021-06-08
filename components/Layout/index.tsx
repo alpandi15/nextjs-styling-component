@@ -17,6 +17,7 @@ const Layout = ({
   title = `${APPNAME}`
 }: Props) => {
   const router = useRouter()
+
   return (
     <>
       <Head>
@@ -27,7 +28,7 @@ const Layout = ({
       <Header>
         <div>Aplikasiku</div>
         <div>
-          <select name="" id="" onChange={(e) => router.replace(router.pathname, router.pathname, { locale: e.target.value })}>
+          <select value={router?.locale} name="" id="" onChange={(e) => router.replace(router.pathname, router.pathname, { locale: e.target.value })}>
             <option value="id">ID</option>
             <option value="en">EN</option>
           </select>

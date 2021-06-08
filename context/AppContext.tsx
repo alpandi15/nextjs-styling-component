@@ -32,12 +32,14 @@ export interface UserDataContext {
 }
 
 export interface AppContextType {
+  isAuthenticated?: boolean,
   token?: string | null,
   user?: UserDataContext,
   logout?: () => void
 }
 
 const initialData = {
+  isAuthenticated: false,
   token: null,
   user: {},
   logout: () => {}

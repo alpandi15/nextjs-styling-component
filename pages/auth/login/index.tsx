@@ -137,8 +137,6 @@ interface LocaleProps {
 }
 
 export const getStaticProps = async ({ locale }: LocaleProps) => {
-  const tes = await serverSideTranslations(locale, ['common'])
-  console.log('LOG ', tes)
   return {
     props: {
       ...await serverSideTranslations(locale, ['common']),

@@ -1,29 +1,45 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
+import Layout from 'components/Layout'
 import { useAppContext } from '../../hook/useAppData'
+import { useTranslation } from 'react-i18next'
+import { useRouter } from 'next/router'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 const Home = () => {
   const { user, logout } = useAppContext()
+  const router = useRouter()
+  const { t } = useTranslation('common')
   return (
-    <Content>
-      <div>
-        <div>Selamat Datang,</div>
-        <b>
-          {
-            user?.name
-          }
-        </b>
-        {' '}
-        <Link href="/home/profile">
-          <a>{`Profil's >>`}</a>
-        </Link>
+    <Layout title="Home">
+      <Content>
         <div>
-          <Logout onClick={logout}>Logout</Logout>
+          <div>{`${t('welcome')},`}</div>
+          <b>
+            {
+              user?.name
+            }
+          </b>
+          {' '}
+          <Link href="/home/profile" locale={router.locale}>
+            <a>{`Profil's >>`}</a>
+          </Link>
+          <div>
+            <Logout onClick={logout}>Logout</Logout>
+          </div>
         </div>
-      </div>
-    </Content>
+      </Content>
+    </Layout>
   )
+}
+
+export const getStaticProps = async ({ locale }: any) => {
+  return {
+    props: {
+      ...await serverSideTranslations(locale, ['common']),
+    },
+  }
 }
 
 export default Home

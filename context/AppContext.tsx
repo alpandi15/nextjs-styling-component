@@ -31,12 +31,14 @@ export interface UserDataContext {
   username?: string,
 }
 
-export type AppContextType = {
+export interface AppContextType {
+  token: string | null,
   user: UserDataContext,
   logout?: () => void
 }
 
 const initialData = {
+  token: null,
   user: {},
   logout: () => {}
 }

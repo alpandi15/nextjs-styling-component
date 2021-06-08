@@ -16,7 +16,6 @@ import Button from '../../../components/Form/Button'
 import {
   device
 } from '../../../styles/LayoutStyle'
-import { loggedChecked } from '../../../components/Security/auth'
 import { verificationCode } from '../../../services/auth/verificationService'
 import { apiForgotPassword } from '../../../services/auth/forgotPassword'
 import { get, set } from '../../../services/utils/storage'
@@ -35,7 +34,7 @@ const getExpiredStorage = async () => {
   return get(FORGOT_EXPIRED_CODE)
 }
 
-export default loggedChecked(function ForgotPassword () {
+export default function ForgotPassword () {
   const [expiredCode, setExpiredCode] = React.useState<Date>(new Date())
   const router = useRouter()
 
@@ -152,7 +151,7 @@ export default loggedChecked(function ForgotPassword () {
       </Content>
     </Layout>
   )
-})
+}
 
 const Content = styled.div`
   display: flex;

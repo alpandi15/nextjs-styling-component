@@ -17,7 +17,6 @@ import Button from '../../../components/Form/Button'
 import {
   device
 } from '../../../styles/LayoutStyle'
-import { loggedChecked } from '../../../components/Security/auth'
 import { apiRegister } from '../../../services/auth'
 
 type FormInputProps = {
@@ -29,7 +28,7 @@ type FormInputProps = {
   phone: string
 }
 
-export default loggedChecked(function Register () {
+export default function Register () {
   const {
     register,
     handleSubmit,
@@ -228,7 +227,7 @@ export default loggedChecked(function Register () {
       </Content>
     </Layout>
   )
-})
+}
 
 const Content = styled.div`
   display: flex;

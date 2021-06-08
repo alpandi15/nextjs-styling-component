@@ -7,22 +7,54 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import styled from 'styled-components'
 import GlobalStyle from '../styles/GlobalStyle'
 import { logout } from '../services/auth'
+import { appWithTranslation } from 'next-i18next'
+import nextI18NextConfig from '../next-i18next.config'
 import ApplicationContext, { AppContextType } from '../context/AppContext'
 import { useRouteState } from '../hook/useRouteState'
+// import { auth } from 'components/Security/auth'
 import '../styles/tailwind.css'
+import Router from 'next/router'
+import { destroyCookie, parseCookies  } from 'nookies'
+import { apiGetProfile } from 'services/auth'
+import { UserDataContext } from 'context/AppContext'
+import { TOKEN } from 'constants/index'
 
 const queryClient = new QueryClient()
 
+const checkAuthentication = async (ctx: any) => {
+  let token: string | null = parseCookies(ctx)[TOKEN] || null
+  let user: UserDataContext = {}
+
+  const res = await apiGetProfile(ctx)
+  if (res?.success) {
+    user = res?.data
+  }
+  if (token && !res?.success && res?.statusCode === 401) {
+    destroyCookie(ctx, TOKEN)
+    return {
+      token: null,
+      user
+    }
+  }
+  return {
+    token,
+    user
+  }
+}
+
 function MyApp({
   Component,
-  pageProps
+  pageProps,
+  user,
+  token
 }: AppProps & AppContextType) {
   const routeState = useRouteState();
   return (
     <QueryClientProvider client={queryClient}>
       <ApplicationContext.Provider
         value={{
-          user: pageProps?.user,
+          user,
+          token,
           logout
         }}
       >
@@ -42,29 +74,78 @@ function MyApp({
   )
 }
 
-MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
-  interface Props {
-    user: any
+function redirectUser(ctx: any) {
+  if (ctx.req) {
+      const redirect = ctx
+        && ctx.pathname
+        && ctx.pathname !== '/auth/login'
+          ? `/auth/login?path=${ctx?.pathname}`
+          : '/auth/login'
+
+      ctx.res.writeHead(302, {
+        Location: redirect
+      })
+      ctx.res.end()
+      return
+  } else {
+    Router.push(ctx?.pathname)
+    return
   }
-  let pageProps: Props | any = {}
+}
+
+function redirectUserIsLogged(ctx: any) {
+  if (ctx.req) {
+    let redirect = '/home'
+    ctx.res.writeHead(302, {
+      Location: redirect
+    })
+    ctx.res.end()
+    return
+  } else {
+    Router.push(ctx?.pathname)
+    return
+  }
+}
+
+MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
+  let pageProps: any = {}
   // let user: UserDataContext = {}
 
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx)
   }
 
-  // const response = await apiGetProfile(ctx)
-  // if (response?.success) {
-  //   user = response?.data
-  // }
+  const { token, user } = await checkAuthentication(ctx)
+
+  const pageUnauthenticated = [
+    '/auth/login',
+    '/auth/register',
+    '/auth/forgot-password',
+    '/auth/forgot-password/verification',
+    '/auth/reset-password',
+  ]
+
+  if (!token && !user?.id) {
+    if (!pageUnauthenticated.includes(ctx.pathname)) {
+      redirectUser(ctx);
+    }
+  }
+
+  if (token && user?.id) {
+    if (pageUnauthenticated.includes(ctx.pathname)) {
+      redirectUserIsLogged(ctx);
+    }
+  }
 
   return {
     pageProps,
-    navigation: 'Navigasi Ini'
+    navigation: 'Navigasi Ini',
+    user,
+    token
   }
 }
 
-export default MyApp
+export default appWithTranslation(MyApp, nextI18NextConfig)
 
 const Preloader: FC = () => (
   <ContentLoader>

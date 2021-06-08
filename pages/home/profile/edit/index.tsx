@@ -15,7 +15,6 @@ import Button from '../../../../components/Form/Button'
 import {
   device
 } from '../../../../styles/LayoutStyle'
-import { withAuthSync } from '../../../../components/Security/auth'
 import { apiEditProfile } from '../../../../services/account'
 import { useAppContext } from '../../../../hook/useAppData'
 
@@ -25,7 +24,7 @@ type FormInputProps = {
   phone: string
 }
 
-export default withAuthSync(function EditProfile () {
+export default function EditProfile () {
   const state = useAppContext()
   const {
     register,
@@ -122,7 +121,7 @@ export default withAuthSync(function EditProfile () {
       </Content>
     </Layout>
   )
-})
+}
 
 const Content = styled.div`
   display: flex;

@@ -15,7 +15,6 @@ import Button from '../../../../components/Form/Button'
 import {
   device
 } from '../../../../styles/LayoutStyle'
-import { withAuthSync } from '../../../../components/Security/auth'
 import { apiChangePassword } from '../../../../services/account'
 
 type FormInputProps = {
@@ -24,7 +23,7 @@ type FormInputProps = {
   old_password: string
 }
 
-export default withAuthSync(function UpdatePassword () {
+export default function UpdatePassword () {
   const {
     register,
     handleSubmit,
@@ -144,7 +143,7 @@ export default withAuthSync(function UpdatePassword () {
       </Content>
     </Layout>
   )
-})
+}
 
 const Content = styled.div`
   display: flex;

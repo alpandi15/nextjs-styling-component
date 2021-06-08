@@ -1,32 +1,35 @@
 import React from 'react'
 import Link from 'next/link'
-import Router from 'next/router'
-import { TOKEN } from '../../../constants'
+import { useRouter } from 'next/router'
+import { TOKEN } from 'constants/index'
 import styled from 'styled-components'
 import {
   useForm
 } from 'react-hook-form'
 import { setCookie } from 'nookies'
-import Layout from '../../../components/Layout'
+import Layout from 'components/Layout'
 import {
   FormControl,
   Input,
   Label,
   ErrorInputMessage
-} from '../../../styles/FormStyle'
-import Button from '../../../components/Form/Button'
+} from 'styles/FormStyle'
+import Button from 'components/Form/Button'
 import {
   device
-} from '../../../styles/LayoutStyle'
-import { loggedChecked } from '../../../components/Security/auth'
-import { apiLogin } from '../../../services/auth'
+} from 'styles/LayoutStyle'
+import { apiLogin } from 'services/auth'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 type FormInputProps = {
   username: string,
   password: string
 }
 
-export default loggedChecked(function Login () {
+const Login = () => {
+  const { t } = useTranslation('common')
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -44,7 +47,7 @@ export default loggedChecked(function Login () {
         path: '/',
       })
 
-      Router.push('/home')
+      router.push('/home')
     }
     console.log(data, login)
   }
@@ -53,7 +56,7 @@ export default loggedChecked(function Login () {
     <Layout title="Login">
       <Content>
         <FormContent>
-          <h3>Login</h3>
+          <h3>{t('header')}</h3>
           <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
               <Input
@@ -125,7 +128,25 @@ export default loggedChecked(function Login () {
       </Content>
     </Layout>
   )
-})
+}
+
+interface LocaleProps {
+  locales: string[],
+  locale: string,
+  defaultLocale: string
+}
+
+export const getStaticProps = async ({ locale }: LocaleProps) => {
+  const tes = await serverSideTranslations(locale, ['common'])
+  console.log('LOG ', tes)
+  return {
+    props: {
+      ...await serverSideTranslations(locale, ['common']),
+    },
+  }
+}
+
+export default Login
 
 const Content = styled.div`
   display: flex;

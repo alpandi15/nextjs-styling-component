@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import styled from 'styled-components'
-import { withAuthSync } from '../../../components/Security/auth'
 import { useAppContext } from '../../../hook/useAppData'
 
 const Profile = () => {
@@ -40,7 +39,7 @@ const Profile = () => {
   )
 }
 
-export default withAuthSync(Profile)
+export default Profile
 
 const Content = styled.div`
   display: flex;

@@ -16,7 +16,6 @@ import Button from '../../../components/Form/Button'
 import {
   device
 } from '../../../styles/LayoutStyle'
-import { loggedChecked } from '../../../components/Security/auth'
 import { apiForgotPassword } from '../../../services/auth/forgotPassword'
 import { set } from '../../../services/utils/storage'
 import { FORGOT_EXPIRED_CODE } from '../../../constants'
@@ -25,7 +24,7 @@ type FormInputProps = {
   email: string
 }
 
-export default loggedChecked(function ForgotPassword () {
+export default function ForgotPassword () {
   const {
     register,
     handleSubmit,
@@ -106,7 +105,7 @@ export default loggedChecked(function ForgotPassword () {
       </Content>
     </Layout>
   )
-})
+}
 
 const Content = styled.div`
   display: flex;

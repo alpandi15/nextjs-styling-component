@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
-import { withAuthSync } from '../../components/Security/auth'
 import { useAppContext } from '../../hook/useAppData'
 
-const Home = ({ user }: any) => {
-  const { logout } = useAppContext()
+const Home = () => {
+  const { user, logout } = useAppContext()
   return (
     <Content>
       <div>
@@ -27,7 +26,7 @@ const Home = ({ user }: any) => {
   )
 }
 
-export default withAuthSync(Home)
+export default Home
 
 const Content = styled.div`
   display: flex;

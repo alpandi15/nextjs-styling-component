@@ -19,20 +19,21 @@
     "noUnusedParameters": true,
     "baseUrl": ".",
     "paths": {
-      "@/services/*": ["./services"],
-      "@/constants/*": ["./constants"],
-      "@/components/*": ["./components"],
-      "@/pages/*": ["./pages"],
-      "@/static/*": ["."],
-      "@/public/*": ["./public"],
-      "@/styles/*": ["./styles]"]
+      "services": ["./services"],
+      "constants": ["./constants"],
+      "components": ["./components"],
+      "pages": ["./pages"],
+      "static": ["."],
+      "public": ["./public"],
+      "styles": ["./styles]"]
     }
   },
   "include": [
     "next-env.d.ts",
     "pages/**/*",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "next-i18next.config.js"
   ],
   "exclude": ["node_modules"]
 }

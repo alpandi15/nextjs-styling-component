@@ -15,7 +15,6 @@ import Button from '../../../components/Form/Button'
 import {
   device
 } from '../../../styles/LayoutStyle'
-import { loggedChecked } from '../../../components/Security/auth'
 import { apiResetPassword } from '../../../services/auth/forgotPassword'
 
 type FormInputProps = {
@@ -23,7 +22,7 @@ type FormInputProps = {
   password: string
 }
 
-export default loggedChecked(function ResetPassword () {
+export default function ResetPassword () {
   const router = useRouter()
   const {
     register,
@@ -123,7 +122,7 @@ export default loggedChecked(function ResetPassword () {
       </Content>
     </Layout>
   )
-})
+}
 
 const Content = styled.div`
   display: flex;

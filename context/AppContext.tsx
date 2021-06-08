@@ -32,8 +32,8 @@ export interface UserDataContext {
 }
 
 export interface AppContextType {
-  token: string | null,
-  user: UserDataContext,
+  token?: string | null,
+  user?: UserDataContext,
   logout?: () => void
 }
 

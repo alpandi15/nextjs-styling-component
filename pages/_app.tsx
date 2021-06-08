@@ -42,7 +42,7 @@ const checkAuthentication = async (ctx: any) => {
   }
 }
 
-function MyApp({
+function MyApp ({
   Component,
   pageProps,
   user,
@@ -86,10 +86,8 @@ function redirectUser(ctx: any) {
         Location: redirect
       })
       ctx.res.end()
-      return
   } else {
     Router.push(ctx?.pathname)
-    return
   }
 }
 
@@ -100,10 +98,8 @@ function redirectUserIsLogged(ctx: any) {
       Location: redirect
     })
     ctx.res.end()
-    return
   } else {
     Router.push(ctx?.pathname)
-    return
   }
 }
 
@@ -118,6 +114,7 @@ MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
   const { token, user } = await checkAuthentication(ctx)
 
   const pageUnauthenticated = [
+    '/',
     '/auth/login',
     '/auth/register',
     '/auth/forgot-password',

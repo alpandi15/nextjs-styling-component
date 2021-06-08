@@ -4,8 +4,11 @@ import { useTranslation } from 'next-i18next'
 import { APPNAME, APP_DESCRIPTION } from '../constants'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import styles from '../styles/Home.module.css'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function Home() {
+  const router = useRouter()
   const { t } = useTranslation('common')
   return (
     <div className={styles.container}>
@@ -26,16 +29,20 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-          <a href="/auth/login" className={styles.card}>
-            <h2>Login &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          <Link href="/auth/login" locale={router?.locale}>
+            <a className={styles.card}>
+              <h2>Login &rarr;</h2>
+              <p>Find in-depth information about Next.js features and API.</p>
+            </a>
+          </Link>
         </div>
         <div className={styles.grid}>
-          <a href="/auth/register" className={styles.card}>
-            <h2>Register &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          <Link href="/auth/register" locale={router?.locale}>
+            <a className={styles.card}>
+              <h2>Register &rarr;</h2>
+              <p>Find in-depth information about Next.js features and API.</p>
+            </a>
+          </Link>
         </div>
       </main>
 

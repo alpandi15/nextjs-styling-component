@@ -124,6 +124,7 @@ export default function ResetPassword () {
   )
 }
 
+ResetPassword.requireAuth = true
 const Content = styled.div`
   display: flex;
   justify-content: center;

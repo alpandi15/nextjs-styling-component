@@ -18,6 +18,8 @@ import { apiGetProfile } from 'services/auth'
 import { UserDataContext } from 'context/AppContext'
 import { TOKEN } from 'constants/index'
 import { NextRouter } from 'next/router'
+import AuthGuard from 'components/Middlaware/AuthGuard'
+import { NextPage } from 'next'
 
 const queryClient = new QueryClient()
 
@@ -42,13 +44,21 @@ const checkAuthentication = async (ctx: any) => {
   }
 }
 
-function MyApp ({
-  Component,
-  pageProps,
-  user,
-  token,
-  isAuthenticated
-}: AppProps & AppContextType) {
+export type NextApplicationPage<P = any, IP = P> = NextPage<P, IP> & {
+  requireAuth?: boolean
+}
+
+function MyApp (props: AppProps & AppContextType) {
+  const {
+    Component,
+    pageProps,
+  }: { Component: NextApplicationPage; pageProps: any; } = props
+  const {
+    user,
+    token,
+    isAuthenticated
+  } = props
+
   const routeState = useRouteState();
   return (
     <QueryClientProvider client={queryClient}>
@@ -63,12 +73,22 @@ function MyApp ({
         <Head>
           <link rel="preconnect" href="https://fonts.gstatic.com" />
         </Head>
-        <>
-          <Component {...pageProps} />
-          {routeState === "start" && (
-            <Preloader>{routeState}</Preloader>
-          )}
-        </>
+        {
+          Component.requireAuth ? (
+            <AuthGuard>
+              <>
+                <Component {...pageProps} />
+              </>
+            </AuthGuard>
+          ) : (
+            <>
+              <Component {...pageProps} />
+            </>
+          )
+        }
+        {routeState === "start" && (
+          <Preloader>{routeState}</Preloader>
+        )}
         <GlobalStyle />
       </ApplicationContext.Provider>
       <ReactQueryDevtools />
@@ -78,12 +98,12 @@ function MyApp ({
 
 function redirectUser(ctx: any, router: NextRouter) {
   if (ctx.req) {
-    const locale = router.locale !== router.defaultLocale ? `${router.locale}` : ''
+    const locale = router.locale !== router.defaultLocale ? `/${router.locale}` : ''
     const redirect = ctx
       && ctx.pathname
-      && ctx.pathname !== `/${locale}/auth/login`
-        ? `/${locale}/auth/login?path=${ctx?.pathname}`
-        : `/${locale}/auth/login`
+      && ctx.pathname !== `${locale}/auth/login`
+        ? `${locale}/auth/login?path=${ctx?.pathname}`
+        : `${locale}/auth/login`
 
     ctx.res.writeHead(302, {
       Location: redirect
@@ -95,9 +115,10 @@ function redirectUser(ctx: any, router: NextRouter) {
 }
 
 function redirectUserIsLogged(ctx: any, router: NextRouter) {
-    const locale = router.locale !== router.defaultLocale ? `${router.locale}` : ''
+  const locale = router.locale !== router.defaultLocale ? `/${router.locale}` : ''
   if (ctx.req) {
-    let redirect = `/${locale}/home`
+    let redirect = `${locale}/home`
+    console.log('HOME ', redirect)
     ctx.res.writeHead(302, {
       Location: redirect
     })
@@ -113,35 +134,35 @@ MyApp.getInitialProps = async ({Component, ctx, router}: AppContext) => {
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx)
   }
-
   const { token, user } = await checkAuthentication(ctx)
+  console.log('PROPS ', user)
 
-  const pageUnauthenticated = [
-    '/auth/login',
-    '/auth/register',
-    '/auth/forgot-password',
-    '/auth/forgot-password/verification',
-    '/auth/reset-password',
-  ]
+  // const pageUnauthenticated = [
+  //   '/auth/login',
+  //   '/auth/register',
+  //   '/auth/forgot-password',
+  //   '/auth/forgot-password/verification',
+  //   '/auth/reset-password',
+  // ]
 
-  if (!token && !user) {
-    if (!pageUnauthenticated.includes(ctx.pathname) && ctx.pathname !== '/') {
-      redirectUser(ctx, router);
-    }
-  }
+  // if (!token && !user) {
+  //   if (!pageUnauthenticated.includes(ctx.pathname) && ctx.pathname !== '/') {
+  //     redirectUser(ctx, router);
+  //   }
+  // }
 
-  if (token && !!user) {
-    if (pageUnauthenticated.includes(ctx.pathname) && ctx.pathname !== '/') {
-      redirectUserIsLogged(ctx, router);
-    }
-  }
+  // if (token && !!user) {
+  //   if (pageUnauthenticated.includes(ctx.pathname) && ctx.pathname !== '/') {
+  //     redirectUserIsLogged(ctx, router);
+  //   }
+  // }
 
   return {
     pageProps,
     navigation: 'Navigasi Ini',
     user,
     token,
-    isAuthenticated: !!user
+    isAuthenticated: token && user?.id ? true : false
   }
 }
 

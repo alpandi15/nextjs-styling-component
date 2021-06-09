@@ -42,6 +42,7 @@ export const getStaticProps = async ({ locale }: any) => {
   }
 }
 
+Home.requireAuth = true
 export default Home
 
 const Content = styled.div`

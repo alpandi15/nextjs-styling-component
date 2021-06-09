@@ -34,7 +34,7 @@ const getExpiredStorage = async () => {
   return get(FORGOT_EXPIRED_CODE)
 }
 
-export default function ForgotPassword () {
+export default function Verification () {
   const [expiredCode, setExpiredCode] = React.useState<Date>(new Date())
   const router = useRouter()
 
@@ -153,6 +153,7 @@ export default function ForgotPassword () {
   )
 }
 
+Verification.requireAuth = true
 const Content = styled.div`
   display: flex;
   justify-content: center;

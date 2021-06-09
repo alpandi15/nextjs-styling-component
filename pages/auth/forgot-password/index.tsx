@@ -107,6 +107,7 @@ export default function ForgotPassword () {
   )
 }
 
+ForgotPassword.requireAuth = true
 const Content = styled.div`
   display: flex;
   justify-content: center;

@@ -229,6 +229,7 @@ export default function Register () {
   )
 }
 
+Register.requireAuth = true
 const Content = styled.div`
   display: flex;
   justify-content: center;

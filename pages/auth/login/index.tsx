@@ -28,6 +28,7 @@ type FormInputProps = {
 }
 
 const Login = () => {
+  // console.log('DATA ', props)
   const { t } = useTranslation('common')
   const router = useRouter()
   const {
@@ -140,10 +141,12 @@ export const getStaticProps = async ({ locale }: LocaleProps) => {
   return {
     props: {
       ...await serverSideTranslations(locale, ['common']),
+      data: 'Isi Data'
     },
   }
 }
 
+Login.requireAuth = true
 export default Login
 
 const Content = styled.div`

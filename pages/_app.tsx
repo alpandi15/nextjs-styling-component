@@ -12,17 +12,13 @@ import ApplicationContext, { AppContextType } from 'context/AppContext'
 import { useRouteState } from 'hook/useRouteState'
 import 'styles/tailwind.css'
 import { useRouter } from 'next/router'
+import id from 'lang/id.json'
+import en from 'lang/en.json'
 
 const queryClient = new QueryClient()
 const messages: any = {
-  id: {
-    name: 'Aplikasiku',
-    welcome: 'Selamat Datang'
-  },
-  en: {
-    name: 'My Application',
-    welcome: 'Welcome'
-  }
+  id,
+  en
 }
 
 function MyApp({

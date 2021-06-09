@@ -29,7 +29,7 @@ const Layout = ({
       </Head>
       <Header>
         <Link href="/" locale={router?.locale}>
-          <a>{t({id: 'name'})}</a>
+          <a>{t({id: 'app.name'})}</a>
         </Link>
         <div>
           <select value={router?.locale} name="" id="" onChange={(e) => router.replace(router.pathname, router.pathname, { locale: e.target.value })}>

@@ -13,7 +13,7 @@ const Home = ({ user }: any) => {
     <Layout title="Home">
       <Content>
         <div>
-          <div>{`${t({id: 'welcome'})},`}</div>
+          <div>{`${t({id: 'app.welcome'})},`}</div>
           <b>
             {
               user?.name

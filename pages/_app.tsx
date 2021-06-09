@@ -17,7 +17,6 @@ import { destroyCookie, parseCookies  } from 'nookies'
 import { apiGetProfile } from 'services/auth'
 import { UserDataContext } from 'context/AppContext'
 import { TOKEN } from 'constants/index'
-import { NextRouter } from 'next/router'
 import AuthGuard from 'components/Middlaware/AuthGuard'
 import { NextPage } from 'next'
 
@@ -96,39 +95,39 @@ function MyApp (props: AppProps & AppContextType) {
   )
 }
 
-function redirectUser(ctx: any, router: NextRouter) {
-  if (ctx.req) {
-    const locale = router.locale !== router.defaultLocale ? `/${router.locale}` : ''
-    const redirect = ctx
-      && ctx.pathname
-      && ctx.pathname !== `${locale}/auth/login`
-        ? `${locale}/auth/login?path=${ctx?.pathname}`
-        : `${locale}/auth/login`
+// function redirectUser(ctx: any, router: NextRouter) {
+//   if (ctx.req) {
+//     const locale = router.locale !== router.defaultLocale ? `/${router.locale}` : ''
+//     const redirect = ctx
+//       && ctx.pathname
+//       && ctx.pathname !== `${locale}/auth/login`
+//         ? `${locale}/auth/login?path=${ctx?.pathname}`
+//         : `${locale}/auth/login`
 
-    ctx.res.writeHead(302, {
-      Location: redirect
-    })
-    ctx.res.end()
-  } else {
-    router.push(ctx?.pathname)
-  }
-}
+//     ctx.res.writeHead(302, {
+//       Location: redirect
+//     })
+//     ctx.res.end()
+//   } else {
+//     router.push(ctx?.pathname)
+//   }
+// }
 
-function redirectUserIsLogged(ctx: any, router: NextRouter) {
-  const locale = router.locale !== router.defaultLocale ? `/${router.locale}` : ''
-  if (ctx.req) {
-    let redirect = `${locale}/home`
-    console.log('HOME ', redirect)
-    ctx.res.writeHead(302, {
-      Location: redirect
-    })
-    ctx.res.end()
-  } else {
-    router.push(ctx?.pathname)
-  }
-}
+// function redirectUserIsLogged(ctx: any, router: NextRouter) {
+//   const locale = router.locale !== router.defaultLocale ? `/${router.locale}` : ''
+//   if (ctx.req) {
+//     let redirect = `${locale}/home`
+//     console.log('HOME ', redirect)
+//     ctx.res.writeHead(302, {
+//       Location: redirect
+//     })
+//     ctx.res.end()
+//   } else {
+//     router.push(ctx?.pathname)
+//   }
+// }
 
-MyApp.getInitialProps = async ({Component, ctx, router}: AppContext) => {
+MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
   let pageProps: any = {}
   // let user: UserDataContext = {}
   if (Component.getInitialProps) {

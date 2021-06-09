@@ -2,6 +2,7 @@ import { APPNAME, APP_DESCRIPTION } from 'constants/index'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import React, { ReactNode } from 'react'
+import { useIntl } from 'react-intl'
 import {
   Container,
   Header
@@ -17,6 +18,7 @@ const Layout = ({
   title = `${APPNAME}`
 }: Props) => {
   const router = useRouter()
+  const { formatMessage: t } = useIntl()
   return (
     <>
       <Head>
@@ -25,7 +27,7 @@ const Layout = ({
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Header>
-        <div>Aplikasiku</div>
+        <div>{t({id: 'name'})}</div>
         <div>
           <select value={router?.locale} name="" id="" onChange={(e) => router.replace(router.pathname, router.pathname, { locale: e.target.value })}>
             {

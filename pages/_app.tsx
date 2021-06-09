@@ -5,41 +5,61 @@ import { SyncLoader } from 'react-spinners'
 import { QueryClientProvider, QueryClient } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import styled from 'styled-components'
-import GlobalStyle from '../styles/GlobalStyle'
-import { logout } from '../services/auth'
-import ApplicationContext, { AppContextType } from '../context/AppContext'
-import { useRouteState } from '../hook/useRouteState'
-import '../styles/tailwind.css'
+import GlobalStyle from 'styles/GlobalStyle'
+import { logout } from 'services/auth'
+import { IntlProvider } from 'react-intl'
+import ApplicationContext, { AppContextType } from 'context/AppContext'
+import { useRouteState } from 'hook/useRouteState'
+import 'styles/tailwind.css'
+import { useRouter } from 'next/router'
 
 const queryClient = new QueryClient()
+const messages: any = {
+  id: {
+    name: 'Aplikasiku',
+    welcome: 'Selamat Datang'
+  },
+  en: {
+    name: 'My Application',
+    welcome: 'Welcome'
+  }
+}
 
 function MyApp({
   Component,
   pageProps
 }: AppProps & AppContextType) {
   const routeState = useRouteState();
+  const { locale = 'id', defaultLocale } = useRouter()
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <ApplicationContext.Provider
-        value={{
-          user: pageProps?.user,
-          isAuthenticated: pageProps?.user ? true : false,
-          logout
-        }}
-      >
-        <Head>
-          <link rel="preconnect" href="https://fonts.gstatic.com" />
-        </Head>
-        <>
-          <Component {...pageProps} />
-          {routeState === "start" && (
-            <Preloader>{routeState}</Preloader>
-          )}
-        </>
-        <GlobalStyle />
-      </ApplicationContext.Provider>
-      <ReactQueryDevtools />
-    </QueryClientProvider>
+    <IntlProvider
+      locale={locale}
+      defaultLocale={defaultLocale}
+      messages={messages[locale]}
+    >
+      <QueryClientProvider client={queryClient}>
+        <ApplicationContext.Provider
+          value={{
+            user: pageProps?.user,
+            isAuthenticated: pageProps?.user ? true : false,
+            logout
+          }}
+        >
+          <Head>
+            <link rel="preconnect" href="https://fonts.gstatic.com" />
+          </Head>
+          <>
+            <Component {...pageProps} />
+            {routeState === "start" && (
+              <Preloader>{routeState}</Preloader>
+            )}
+          </>
+          <GlobalStyle />
+        </ApplicationContext.Provider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
+    </IntlProvider>
   )
 }
 

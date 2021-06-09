@@ -1,7 +1,13 @@
 const path = require('path')
 require('dotenv').config()
+// const { nextI18NextRewrites } = require('next-i18next/rewrites')
+
+// const localeSubpaths = {
+//   hr: 'id'
+// }
 
 module.exports = {
+  // rewrites: async () => nextI18NextRewrites(localeSubpaths),
   i18n: {
     locales: ['en', 'id'],
     defaultLocale: 'id',

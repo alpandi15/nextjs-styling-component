@@ -1,29 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
-import { withAuthSync } from '../../components/Security/auth'
-import { useAppContext } from '../../hook/useAppData'
+import { withAuthSync } from 'components/Security/auth'
+import { useAppContext } from 'hook/useAppData'
+import Layout from 'components/Layout'
+import { useIntl } from 'react-intl'
 
 const Home = ({ user }: any) => {
   const { logout } = useAppContext()
+  const { formatMessage: t } = useIntl()
   return (
-    <Content>
-      <div>
-        <div>Selamat Datang,</div>
-        <b>
-          {
-            user?.name
-          }
-        </b>
-        {' '}
-        <Link href="/home/profile">
-          <a>{`Profil's >>`}</a>
-        </Link>
+    <Layout title="Home">
+      <Content>
         <div>
-          <Logout onClick={logout}>Logout</Logout>
+          <div>{`${t({id: 'welcome'})},`}</div>
+          <b>
+            {
+              user?.name
+            }
+          </b>
+          {' '}
+          <Link href="/home/profile">
+            <a>{`Profil's >>`}</a>
+          </Link>
+          <div>
+            <Logout onClick={logout}>Logout</Logout>
+          </div>
         </div>
-      </div>
-    </Content>
+      </Content>
+    </Layout>
   )
 }
 

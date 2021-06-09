@@ -1,25 +1,25 @@
 import React from 'react'
 import Link from 'next/link'
-import Router from 'next/router'
-import { TOKEN } from '../../../constants'
+import Router, { useRouter } from 'next/router'
+import { TOKEN } from 'constants/index'
 import styled from 'styled-components'
 import {
   useForm
 } from 'react-hook-form'
 import { setCookie } from 'nookies'
-import Layout from '../../../components/Layout'
+import Layout from 'components/Layout'
 import {
   FormControl,
   Input,
   Label,
   ErrorInputMessage
-} from '../../../styles/FormStyle'
-import Button from '../../../components/Form/Button'
+} from 'styles/FormStyle'
+import Button from 'components/Form/Button'
 import {
   device
-} from '../../../styles/LayoutStyle'
-import { loggedChecked } from '../../../components/Security/auth'
-import { apiLogin } from '../../../services/auth'
+} from 'styles/LayoutStyle'
+import { loggedChecked } from 'components/Security/auth'
+import { apiLogin } from 'services/auth'
 
 type FormInputProps = {
   username: string,
@@ -27,6 +27,7 @@ type FormInputProps = {
 }
 
 export default loggedChecked(function Login () {
+  const { locale } = useRouter()
   const {
     register,
     handleSubmit,
@@ -44,7 +45,7 @@ export default loggedChecked(function Login () {
         path: '/',
       })
 
-      Router.push('/home')
+      Router.push('/home', '/home', { locale })
     }
     console.log(data, login)
   }

@@ -19,19 +19,19 @@ const AuthGuard = ({
   const { isAuthenticated } = useAppContext()
   const router = useRouter()
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !authPages.includes(router.pathname)) {
       const redirect = router?.pathname !== `/auth/login`
         ? `/auth/login?path=${router?.pathname}`
         : `/auth/login`
   
       router.push(redirect, redirect, { locale: router?.locale })
     }
-    if (isAuthenticated && authPages.includes(router.pathname)) {
-      const redirect = '/home'
-      router.push(redirect, redirect, { locale: router?.locale })
-    }
-    console.log('AUTHENTICATED ', router.pathname)
-  }, [isAuthenticated, router])
+    // else {
+    //   const redirect = '/home'
+    //   router.push(redirect, redirect, { locale: router?.locale })
+    // }
+    console.log('LOGIN ', isAuthenticated && authPages.includes(router.pathname), router.pathname)
+  }, [isAuthenticated])
 
   if (isAuthenticated) {
     return <>{children}</>

@@ -38,6 +38,7 @@ export const getStaticProps = async ({ locale }: any) => {
   return {
     props: {
       ...await serverSideTranslations(locale, ['common']),
+      requireAuth: true
     },
   }
 }

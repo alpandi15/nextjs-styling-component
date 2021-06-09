@@ -17,8 +17,8 @@ import { destroyCookie, parseCookies  } from 'nookies'
 import { apiGetProfile } from 'services/auth'
 import { UserDataContext } from 'context/AppContext'
 import { TOKEN } from 'constants/index'
-import AuthGuard from 'components/Middlaware/AuthGuard'
-import { NextPage } from 'next'
+import { NextPage, NextPageContext } from 'next'
+import { NextRouter } from 'next/router'
 
 const queryClient = new QueryClient()
 
@@ -72,7 +72,7 @@ function MyApp (props: AppProps & AppContextType) {
         <Head>
           <link rel="preconnect" href="https://fonts.gstatic.com" />
         </Head>
-        {
+        {/* {
           Component.requireAuth ? (
             <AuthGuard>
               <>
@@ -84,10 +84,13 @@ function MyApp (props: AppProps & AppContextType) {
               <Component {...pageProps} />
             </>
           )
-        }
-        {routeState === "start" && (
-          <Preloader>{routeState}</Preloader>
-        )}
+        } */}
+        <>
+          <Component {...pageProps} />
+          {routeState === "start" && (
+            <Preloader>{routeState}</Preloader>
+          )}
+        </>
         <GlobalStyle />
       </ApplicationContext.Provider>
       <ReactQueryDevtools />
@@ -95,66 +98,73 @@ function MyApp (props: AppProps & AppContextType) {
   )
 }
 
-// function redirectUser(ctx: any, router: NextRouter) {
-//   if (ctx.req) {
-//     const locale = router.locale !== router.defaultLocale ? `/${router.locale}` : ''
-//     const redirect = ctx
-//       && ctx.pathname
-//       && ctx.pathname !== `${locale}/auth/login`
-//         ? `${locale}/auth/login?path=${ctx?.pathname}`
-//         : `${locale}/auth/login`
+function redirectUser(ctx: any, router: NextRouter) {
+  if (ctx.req) {
+    const locale = router.locale !== router.defaultLocale ? `/${router.locale}` : ''
+    const redirect = ctx
+      && ctx.pathname
+      && ctx.pathname !== `${locale}/auth/login`
+        ? `${locale}/auth/login?path=${ctx?.pathname}`
+        : `${locale}/auth/login`
 
-//     ctx.res.writeHead(302, {
-//       Location: redirect
-//     })
-//     ctx.res.end()
-//   } else {
-//     router.push(ctx?.pathname)
-//   }
-// }
+    ctx.res.writeHead(302, {
+      Location: redirect
+    })
+    ctx.res.end()
+  } else {
+    router.push(ctx?.pathname)
+  }
+}
 
-// function redirectUserIsLogged(ctx: any, router: NextRouter) {
-//   const locale = router.locale !== router.defaultLocale ? `/${router.locale}` : ''
-//   if (ctx.req) {
-//     let redirect = `${locale}/home`
-//     console.log('HOME ', redirect)
-//     ctx.res.writeHead(302, {
-//       Location: redirect
-//     })
-//     ctx.res.end()
-//   } else {
-//     router.push(ctx?.pathname)
-//   }
-// }
+function redirectUserIsLogged(ctx: any, router: NextRouter) {
+  const locale = router.locale !== router.defaultLocale ? `/${router.locale}` : ''
+  if (ctx.req) {
+    let redirect = `${locale}/home`
+    console.log('HOME ', redirect)
+    ctx.res.writeHead(302, {
+      Location: redirect
+    })
+    ctx.res.end()
+  } else {
+    router.push(ctx?.pathname)
+  }
+}
 
-MyApp.getInitialProps = async ({Component, ctx}: AppContext) => {
+MyApp.getInitialProps = async (props: AppContext) => {
+  const {
+    Component,
+    ctx,
+    router
+  }:{ Component: NextApplicationPage; ctx: NextPageContext; router: NextRouter } = props
   let pageProps: any = {}
   // let user: UserDataContext = {}
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx)
   }
   const { token, user } = await checkAuthentication(ctx)
-  console.log('PROPS ', user)
+  console.log('PROPS ', Component)
 
-  // const pageUnauthenticated = [
-  //   '/auth/login',
-  //   '/auth/register',
-  //   '/auth/forgot-password',
-  //   '/auth/forgot-password/verification',
-  //   '/auth/reset-password',
-  // ]
+  if (Component?.requireAuth) {
+    const pageUnauthenticated = [
+      '/auth/login',
+      '/auth/register',
+      '/auth/forgot-password',
+      '/auth/forgot-password/verification',
+      '/auth/reset-password',
+    ]
 
-  // if (!token && !user) {
-  //   if (!pageUnauthenticated.includes(ctx.pathname) && ctx.pathname !== '/') {
-  //     redirectUser(ctx, router);
-  //   }
-  // }
+    if (!token && !user) {
+      if (!pageUnauthenticated.includes(ctx.pathname)) {
+        redirectUser(ctx, router);
+      }
+    }
 
-  // if (token && !!user) {
-  //   if (pageUnauthenticated.includes(ctx.pathname) && ctx.pathname !== '/') {
-  //     redirectUserIsLogged(ctx, router);
-  //   }
-  // }
+    if (token && !!user) {
+      if (pageUnauthenticated.includes(ctx.pathname)) {
+        redirectUserIsLogged(ctx, router);
+      }
+    }
+  }
 
   return {
     pageProps,

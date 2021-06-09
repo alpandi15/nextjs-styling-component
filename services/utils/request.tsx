@@ -28,7 +28,8 @@ export async function request({
   requiredToken = false,
   responseHtml = false,
   headers = {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Accept-Language': 'en'
   },
   params = {},
   type = 'json',
@@ -46,13 +47,15 @@ export async function request({
   switch (type) {
     case 'json': {
       headers = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept-Language': 'en'
       }
       break
     }
     case 'form-data': {
       headers = {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Accept-Language': 'en'
       }
       break
     }

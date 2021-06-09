@@ -23,6 +23,7 @@ function MyApp({
       <ApplicationContext.Provider
         value={{
           user: pageProps?.user,
+          isAuthenticated: pageProps?.user ? true : false,
           logout
         }}
       >

@@ -32,7 +32,8 @@ export interface UserDataContext {
 }
 
 export type AppContextType = {
-  user: UserDataContext,
+  isAuthenticated?: boolean,
+  user?: UserDataContext,
   logout?: () => void
 }
 

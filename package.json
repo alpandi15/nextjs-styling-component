@@ -14,7 +14,6 @@
     "js-cookie": "^2.2.1",
     "moment": "^2.29.1",
     "next": "10.2.2",
-    "next-i18next": "^6.0.2",
     "nookies": "^2.5.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -25,8 +24,10 @@
     "tailwindcss": "^2.1.2"
   },
   "devDependencies": {
+    "@formatjs/ts-transformer": "^3.4.1",
     "@types/js-cookie": "^2.2.6",
     "@types/styled-components": "^5.1.9",
+    "babel-plugin-formatjs": "^10.2.18",
     "babel-plugin-macros": "^3.1.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-styled-components": "^1.12.0",

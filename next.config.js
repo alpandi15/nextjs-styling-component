@@ -1,13 +1,8 @@
+const transform = require('@formatjs/ts-transformer').transform
 const path = require('path')
 require('dotenv').config()
-// const { nextI18NextRewrites } = require('next-i18next/rewrites')
-
-// const localeSubpaths = {
-//   hr: 'id'
-// }
 
 module.exports = {
-  // rewrites: async () => nextI18NextRewrites(localeSubpaths),
   i18n: {
     locales: ['en', 'id'],
     defaultLocale: 'id',
@@ -47,5 +42,28 @@ module.exports = {
     config.resolve.alias['@/services'] = path.join(__dirname, 'services')
     config.resolve.extensions = ['.ts', '.tsx', '.js']
     return config
-  }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              getCustomTransformers() {
+                return {
+                  before: [
+                    transform({
+                      overrideIdFn: '[sha512:contenthash:base64:6]',
+                    }),
+                  ],
+                }
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
 }

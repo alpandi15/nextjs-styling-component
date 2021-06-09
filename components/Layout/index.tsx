@@ -1,5 +1,6 @@
 import { APPNAME, APP_DESCRIPTION } from 'constants/index'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { ReactNode } from 'react'
 import { useIntl } from 'react-intl'
@@ -27,7 +28,9 @@ const Layout = ({
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Header>
-        <div>{t({id: 'name'})}</div>
+        <Link href="/" locale={router?.locale}>
+          <a>{t({id: 'name'})}</a>
+        </Link>
         <div>
           <select value={router?.locale} name="" id="" onChange={(e) => router.replace(router.pathname, router.pathname, { locale: e.target.value })}>
             {

@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { ReactNode } from 'react'
-import { useIntl } from 'react-intl'
+import t from 'components/I18n/translate'
 import {
   Container,
   Header
@@ -19,7 +19,6 @@ const Layout = ({
   title = `${APPNAME}`
 }: Props) => {
   const router = useRouter()
-  const { formatMessage: t } = useIntl()
   return (
     <>
       <Head>
@@ -29,7 +28,7 @@ const Layout = ({
       </Head>
       <Header>
         <Link href="/" locale={router?.locale}>
-          <a>{t({id: 'app.name'})}</a>
+          <a>{t('app.name')}</a>
         </Link>
         <div>
           <select value={router?.locale} name="" id="" onChange={(e) => router.replace(router.pathname, router.pathname, { locale: e.target.value })}>

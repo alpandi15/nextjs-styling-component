@@ -4,16 +4,15 @@ import Link from 'next/link'
 import { withAuthSync } from 'components/Security/auth'
 import { useAppContext } from 'hook/useAppData'
 import Layout from 'components/Layout'
-import { useIntl } from 'react-intl'
+import t from 'components/I18n/translate'
 
 const Home = ({ user }: any) => {
   const { logout } = useAppContext()
-  const { formatMessage: t } = useIntl()
   return (
     <Layout title="Home">
       <Content>
         <div>
-          <div>{`${t({id: 'app.welcome'})},`}</div>
+          <div>{`${t('app.welcome')},`}</div>
           <b>
             {
               user?.name

@@ -7,32 +7,24 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import styled from 'styled-components'
 import GlobalStyle from 'styles/GlobalStyle'
 import { logout } from 'services/auth'
-import { IntlProvider } from 'react-intl'
+import { I18nProvider } from 'components/I18n'
 import ApplicationContext, { AppContextType } from 'context/AppContext'
 import { useRouteState } from 'hook/useRouteState'
 import 'styles/tailwind.css'
 import { useRouter } from 'next/router'
-import id from 'lang/id.json'
-import en from 'lang/en.json'
 
 const queryClient = new QueryClient()
-const messages: any = {
-  id,
-  en
-}
 
 function MyApp({
   Component,
   pageProps
 }: AppProps & AppContextType) {
   const routeState = useRouteState();
-  const { locale = 'id', defaultLocale } = useRouter()
+  const { locale = 'id' } = useRouter()
 
   return (
-    <IntlProvider
+    <I18nProvider
       locale={locale}
-      defaultLocale={defaultLocale}
-      messages={messages[locale]}
     >
       <QueryClientProvider client={queryClient}>
         <ApplicationContext.Provider
@@ -55,7 +47,7 @@ function MyApp({
         </ApplicationContext.Provider>
         <ReactQueryDevtools />
       </QueryClientProvider>
-    </IntlProvider>
+    </I18nProvider>
   )
 }
 

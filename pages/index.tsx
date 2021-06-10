@@ -1,11 +1,14 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { APPNAME, APP_DESCRIPTION } from 'constants/index'
-import { useIntl } from 'react-intl'
+import translate from 'components/I18n/translate'
 import styles from '../styles/Home.module.css'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function Home() {
-  const { formatMessage: t } = useIntl()
+  const { locale } = useRouter()
+
   return (
     <div className={styles.container}>
       <Head>
@@ -16,7 +19,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          {t({id: 'app.name'})}
+          {translate("app.welcome")}
         </h1>
 
         <p className={styles.description}>
@@ -25,16 +28,20 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-          <a href="/auth/login" className={styles.card}>
-            <h2>Login &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          <Link href="/auth/login" locale={locale}>
+            <a className={styles.card}>
+              <h2>Login &rarr;</h2>
+              <p>Find in-depth information about Next.js features and API.</p>
+            </a>
+          </Link>
         </div>
         <div className={styles.grid}>
-          <a href="/auth/register" className={styles.card}>
-            <h2>Register &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          <Link href="/auth/register" locale={locale}>
+            <a className={styles.card}>
+              <h2>Register &rarr;</h2>
+              <p>Find in-depth information about Next.js features and API.</p>
+            </a>
+          </Link>
         </div>
       </main>
 

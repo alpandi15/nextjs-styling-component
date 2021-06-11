@@ -1,6 +1,7 @@
 import type { AppProps, AppContext } from 'next/app'
 import { FC } from 'react'
 import Head from 'next/head'
+import { DefaultSeo } from 'next-seo'
 import { SyncLoader } from 'react-spinners'
 import { QueryClientProvider, QueryClient } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
@@ -12,6 +13,7 @@ import ApplicationContext, { AppContextType } from 'context/AppContext'
 import { useRouteState } from 'hook/useRouteState'
 import 'styles/tailwind.css'
 import { useRouter } from 'next/router'
+import SEO from '../next-seo.config'
 
 const queryClient = new QueryClient()
 
@@ -23,31 +25,34 @@ function MyApp({
   const { locale = 'id' } = useRouter()
 
   return (
-    <I18nProvider
-      locale={locale}
-    >
-      <QueryClientProvider client={queryClient}>
-        <ApplicationContext.Provider
-          value={{
-            user: pageProps?.user,
-            isAuthenticated: pageProps?.user ? true : false,
-            logout
-          }}
-        >
-          <Head>
-            <link rel="preconnect" href="https://fonts.gstatic.com" />
-          </Head>
-          <>
-            <Component {...pageProps} />
-            {routeState === "start" && (
-              <Preloader>{routeState}</Preloader>
-            )}
-          </>
-          <GlobalStyle />
-        </ApplicationContext.Provider>
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </I18nProvider>
+    <>
+      <DefaultSeo {...SEO} />
+      <I18nProvider
+        locale={locale}
+      >
+        <QueryClientProvider client={queryClient}>
+          <ApplicationContext.Provider
+            value={{
+              user: pageProps?.user,
+              isAuthenticated: pageProps?.user ? true : false,
+              logout
+            }}
+          >
+            <Head>
+              <link rel="preconnect" href="https://fonts.gstatic.com" />
+            </Head>
+            <>
+              <Component {...pageProps} />
+              {routeState === "start" && (
+                <Preloader>{routeState}</Preloader>
+              )}
+            </>
+            <GlobalStyle />
+          </ApplicationContext.Provider>
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+      </I18nProvider>
+    </>
   )
 }
 

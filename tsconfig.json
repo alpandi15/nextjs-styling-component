@@ -32,7 +32,8 @@
     "next-env.d.ts",
     "pages/**/*",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "next-seo.config.js"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { APPNAME, APP_DESCRIPTION } from 'constants/index'
+// import { APPNAME, APP_DESCRIPTION } from 'constants/index'
 import translate from 'components/I18n/translate'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'

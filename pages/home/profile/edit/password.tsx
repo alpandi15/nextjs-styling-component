@@ -4,19 +4,19 @@ import styled from 'styled-components'
 import {
   useForm
 } from 'react-hook-form'
-import Layout from '../../../../components/Layout'
+import Layout from 'components/Layout'
 import {
   FormControl,
   Input,
   Label,
   ErrorInputMessage
-} from '../../../../styles/FormStyle'
-import Button from '../../../../components/Form/Button'
+} from 'styles/FormStyle'
+import Button from 'components/Form/Button'
 import {
   device
-} from '../../../../styles/LayoutStyle'
-import { withAuthSync } from '../../../../components/Security/auth'
-import { apiChangePassword } from '../../../../services/account'
+} from 'styles/LayoutStyle'
+import { withAuthSync } from 'components/Security/auth'
+import { apiChangePassword } from 'services/account'
 
 type FormInputProps = {
   password: string,
